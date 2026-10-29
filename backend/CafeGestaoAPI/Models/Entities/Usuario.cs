@@ -13,7 +13,9 @@ namespace CafeGestaoAPI.Models.Entities
         public required string Email { get; set; }
 
         [MaxLength(255)]
-        public required string SenhaHash { get; set; } 
+        public required string SenhaHash { get; set; }
+
+        public int VersaoToken { get; set; } = 0;
 
         public int TentativasLogin { get; set; } = 0;
 

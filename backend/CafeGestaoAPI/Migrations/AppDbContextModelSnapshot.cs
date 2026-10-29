@@ -436,6 +436,9 @@ namespace CafeGestaoAPI.Migrations
                     b.Property<DateTime?>("UltimoLogin")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("VersaoToken")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
