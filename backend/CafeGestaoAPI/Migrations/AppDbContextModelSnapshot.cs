@@ -22,14 +22,392 @@ namespace CafeGestaoAPI.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Usuario", b =>
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Endereco", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Bairro")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Cep")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("varchar(9)");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Complemento")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("Pais")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Rua")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Uf")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("varchar(2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Enderecos");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Fornecedor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Celular")
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("CpfCnpj")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("EnderecoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RazaoSocial")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EnderecoId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioId", "CpfCnpj")
+                        .IsUnique();
+
+                    b.ToTable("Fornecedores");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Insumo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Categoria")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<decimal>("QuantidadeEstoque")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<string>("UnidadeMedida")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId", "Nome")
+                        .IsUnique();
+
+                    b.ToTable("Insumos");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.ItemCompra", b =>
+                {
+                    b.Property<int>("OrdemCompraId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InsumoId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantidade")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<decimal>("ValorUnitario")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrdemCompraId", "InsumoId");
+
+                    b.HasIndex("InsumoId");
+
+                    b.ToTable("ItensCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.OrdemCompra", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("DataCompra")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NotaFiscal")
+                        .IsRequired()
+                        .HasMaxLength(55)
+                        .HasColumnType("varchar(55)");
+
+                    b.Property<decimal>("ValorTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FornecedorId");
+
+                    b.ToTable("OrdensCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.PropriedadeRural", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AreaCultivadaHa")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<decimal>("AreaTotalHa")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("EnderecoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("ProprietarioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EnderecoId")
+                        .IsUnique();
+
+                    b.HasIndex("ProprietarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("PropriedadesRurais");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Proprietario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("DataNascimento")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId", "Cpf")
+                        .IsUnique();
+
+                    b.ToTable("Proprietarios");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Talhao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AreaHa")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly?>("DataPlantio")
+                        .HasColumnType("date");
+
+                    b.Property<decimal?>("EspacamentoLinha")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<decimal?>("EspacamentoPlanta")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("PropriedadeRuralId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuantidadeMudas")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Variedades")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PropriedadeRuralId");
+
+                    b.ToTable("Talhoes");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("BloqueadoAte")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime(6)");
@@ -52,12 +430,163 @@ namespace CafeGestaoAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int>("TentativasLogin")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UltimoLogin")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Fornecedor", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Endereco", "Endereco")
+                        .WithOne()
+                        .HasForeignKey("CafeGestaoAPI.Models.Entities.Fornecedor", "EnderecoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany("Fornecedores")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Endereco");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Insumo", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany("Insumos")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.ItemCompra", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Insumo", "Insumo")
+                        .WithMany("ItensCompra")
+                        .HasForeignKey("InsumoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.OrdemCompra", "OrdemCompra")
+                        .WithMany("ItensCompra")
+                        .HasForeignKey("OrdemCompraId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Insumo");
+
+                    b.Navigation("OrdemCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.OrdemCompra", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Fornecedor", "Fornecedor")
+                        .WithMany("OrdensCompra")
+                        .HasForeignKey("FornecedorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Fornecedor");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.PropriedadeRural", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Endereco", "Endereco")
+                        .WithOne()
+                        .HasForeignKey("CafeGestaoAPI.Models.Entities.PropriedadeRural", "EnderecoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Proprietario", "Proprietario")
+                        .WithMany("PropriedadesRurais")
+                        .HasForeignKey("ProprietarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany("PropriedadesRurais")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Endereco");
+
+                    b.Navigation("Proprietario");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Proprietario", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany("Proprietarios")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Talhao", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.PropriedadeRural", "PropriedadeRural")
+                        .WithMany("Talhoes")
+                        .HasForeignKey("PropriedadeRuralId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PropriedadeRural");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Fornecedor", b =>
+                {
+                    b.Navigation("OrdensCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Insumo", b =>
+                {
+                    b.Navigation("ItensCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.OrdemCompra", b =>
+                {
+                    b.Navigation("ItensCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.PropriedadeRural", b =>
+                {
+                    b.Navigation("Talhoes");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Proprietario", b =>
+                {
+                    b.Navigation("PropriedadesRurais");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Usuario", b =>
+                {
+                    b.Navigation("Fornecedores");
+
+                    b.Navigation("Insumos");
+
+                    b.Navigation("PropriedadesRurais");
+
+                    b.Navigation("Proprietarios");
                 });
 #pragma warning restore 612, 618
         }
