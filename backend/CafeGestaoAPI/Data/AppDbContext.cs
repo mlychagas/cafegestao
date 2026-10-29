@@ -112,5 +112,38 @@ namespace CafeGestaoAPI.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
         }
-    }
+
+        private void AtualizarDatas()
+        {
+            var dataAgora = DateTime.UtcNow;
+
+            foreach (var entry in  ChangeTracker.Entries<EntidadeBase>())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.DataCriacao = dataAgora;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.DataAtualizacao = dataAgora;
+                    entry.Property(e => e.DataCriacao).IsModified = false;
+                }
+                
+
+            }
+        }
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            AtualizarDatas();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            AtualizarDatas();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+
+    } ///
 }
