@@ -27,7 +27,7 @@ namespace CafeGestaoAPI.Models.Entities
         public required string Uf { get; set; }
 
         [MaxLength(50)]
-        public required string Pais { get; set; } = "Brasil";
+        public string Pais { get; set; } = "Brasil";
 
         [MaxLength(100)]
         public string? Complemento { get; set; }

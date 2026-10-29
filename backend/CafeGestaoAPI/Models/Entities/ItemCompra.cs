@@ -11,8 +11,10 @@ namespace CafeGestaoAPI.Models.Entities
         public int InsumoId { get; set; }
         public Insumo Insumo { get; set; } = null!;
 
-        public required int Quantidade { get; set; }
+        [Precision(10,3)]
+        public required decimal Quantidade { get; set; }
 
+        [Precision(18, 2)]
         public decimal ValorUnitario { get; set; }
     }
 }

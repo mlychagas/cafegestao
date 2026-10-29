@@ -22,7 +22,7 @@ namespace CafeGestaoAPI.Models.Entities
 
         public ICollection<PropriedadeRural> PropriedadesRurais { get; set; } = new List<PropriedadeRural>();
 
-        public required int UsuarioId { get; set; }
+        public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; } = null!;
 
     }

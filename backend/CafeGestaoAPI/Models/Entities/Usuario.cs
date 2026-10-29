@@ -15,7 +15,7 @@ namespace CafeGestaoAPI.Models.Entities
         [MaxLength(255)]
         public required string SenhaHash { get; set; } 
 
-        public int? TentativasLogin { get; set; }
+        public int TentativasLogin { get; set; } = 0;
 
         public DateTime? BloqueadoAte { get; set; }
 
@@ -29,5 +29,7 @@ namespace CafeGestaoAPI.Models.Entities
         public ICollection<Insumo> Insumos { get; set; } = new List<Insumo>();
 
         public ICollection<Proprietario> Proprietarios { get; set; } = new List<Proprietario>();
+
+        public ICollection<Fornecedor> Fornecedores { get; set; } = new List<Fornecedor>();
     }
 }

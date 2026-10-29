@@ -11,10 +11,10 @@ namespace CafeGestaoAPI.Models.Entities
         public required DateOnly DataCompra { get; set; }
 
         [Precision(18, 2)]
-        public required decimal ValorTotal { get; set; }
+        public decimal ValorTotal { get; set; }
 
         // chaves estrangeiras
-        public required int FornecedorId { get; set; }
+        public int FornecedorId { get; set; }
         public Fornecedor Fornecedor { get; set; } = null!;
 
         // coleção

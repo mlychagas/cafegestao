@@ -18,13 +18,13 @@ namespace CafeGestaoAPI.Models.Entities
 
         // chaves estrangeiras
 
-        public required int UsuarioId { get; set; }
+        public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; } = null!;
 
-        public required int ProprietarioId { get; set; }
+        public int ProprietarioId { get; set; }
         public Proprietario Proprietario { get; set; } = null!;
 
-        public required int EnderecoId { get; set; }
+        public int EnderecoId { get; set; }
         public Endereco Endereco { get; set; } = null!;
 
         // Collections

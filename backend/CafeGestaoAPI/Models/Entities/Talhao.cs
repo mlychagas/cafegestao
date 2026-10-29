@@ -27,7 +27,7 @@ namespace CafeGestaoAPI.Models.Entities
         public bool Ativo { get; set; } = true;
 
         // chaves estrangeiras
-        public required int PropriedadeRuralId { get; set; }
+        public int PropriedadeRuralId { get; set; }
         public PropriedadeRural PropriedadeRural { get; set; } = null!;
 
 
