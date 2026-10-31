@@ -1,5 +1,7 @@
 using CafeGestaoAPI.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using CafeGestaoAPI.Models.Entities;
 
 var MyAllowSpecificOrigins = "PermitirFrontend";
 
@@ -22,6 +24,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0))));
 
 // Add services to the container.
+builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
