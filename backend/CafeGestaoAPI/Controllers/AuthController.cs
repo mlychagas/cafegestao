@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CafeGestaoAPI.Services;
+using Microsoft.AspNetCore.Authorization;
+using CafeGestaoAPI.Extensions;
 
 namespace CafeGestaoAPI.Controllers
 {
@@ -128,6 +130,52 @@ namespace CafeGestaoAPI.Controllers
             };
 
             return Ok(resposta);
+
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<ActionResult<UsuarioRespostaDto>> ObterUsuarioLogado()
+        {
+            var usuarioId = User.ObterUsuarioId();
+
+            if (usuarioId is null)
+            {
+                return Unauthorized(new { mensagem = "Usuário não autenticado." });
+            }
+
+            var usuario = await _context.Usuarios.FindAsync(usuarioId.Value);
+            if (usuario is null)
+            {
+                return Unauthorized(new { mensagem = "Usuário não autenticado." });
+            }
+
+            return Ok(new UsuarioRespostaDto
+            {
+                Id = usuario.Id,
+                Nome = usuario.Nome,
+                Email = usuario.Email
+            });
+        }
+
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var id = User.ObterUsuarioId();
+            if (id is null)
+            {
+                return Unauthorized(new { mensagem = "Usuário não autenticado." });
+            }
+
+            var usuario = await _context.Usuarios.FindAsync(id.Value);
+            if (usuario is null)
+            {
+                return Unauthorized(new { mensagem = "Usuário não autenticado." });
+            }
+            usuario.VersaoToken++;
+            await _context.SaveChangesAsync();
+            return NoContent();
 
         }
     }
