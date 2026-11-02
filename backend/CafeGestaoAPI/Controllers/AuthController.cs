@@ -178,5 +178,33 @@ namespace CafeGestaoAPI.Controllers
             return NoContent();
 
         }
+
+        [Authorize]
+        [HttpPost("alterar-senha")]
+        public async Task<IActionResult> AlterarSenha(AlterarSenhaDto dto)
+        {
+            var id = User.ObterUsuarioId();
+            if (id is null)
+            {
+                return Unauthorized(new { mensagem = "Usuário não autenticado." });
+            }
+
+            var usuario = await _context.Usuarios.FindAsync(id.Value);
+            if (usuario is null)
+            {
+                return Unauthorized(new { mensagem = "Usuário não autenticado." });
+            }
+
+            var senhaAtual = _passwordHasher.VerifyHashedPassword(usuario, usuario.SenhaHash, dto.SenhaAtual);
+            if(senhaAtual == PasswordVerificationResult.Failed)
+            {
+                return BadRequest(new { mensagem = "Senha atual incorreta." });
+            }
+            usuario.SenhaHash = _passwordHasher.HashPassword(usuario, dto.NovaSenha);
+            usuario.VersaoToken++;
+            await _context.SaveChangesAsync();
+            return NoContent();
+
+        }
     }
 }
