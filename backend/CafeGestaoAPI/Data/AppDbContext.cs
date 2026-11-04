@@ -12,8 +12,6 @@ namespace CafeGestaoAPI.Data
 
         public DbSet<Endereco> Enderecos { get; set; }
 
-        public DbSet<Proprietario> Proprietarios { get; set; }
-
         public DbSet<PropriedadeRural> PropriedadesRurais { get; set; }
 
         public DbSet<Talhao> Talhoes { get; set; }
@@ -33,13 +31,6 @@ namespace CafeGestaoAPI.Data
 
             modelBuilder.Entity<Usuario>().HasIndex(u => u.Email).IsUnique();
 
-            modelBuilder.Entity<Proprietario>(entity => {
-                entity.HasIndex(p => new { p.UsuarioId, p.Cpf }).IsUnique();
-                entity.HasOne(t => t.Usuario)
-                .WithMany(u => u.Proprietarios)
-                .HasForeignKey(p => p.UsuarioId)
-                .OnDelete(DeleteBehavior.Restrict);
-            });
 
             modelBuilder.Entity<PropriedadeRural>(entity => {
                 entity.HasOne(p => p.Endereco)
@@ -52,10 +43,6 @@ namespace CafeGestaoAPI.Data
                        .HasForeignKey(p => p.UsuarioId)
                        .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(p => p.Proprietario)
-                       .WithMany(pr => pr.PropriedadesRurais)
-                       .HasForeignKey(p => p.ProprietarioId)
-                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Fornecedor>(entity => {

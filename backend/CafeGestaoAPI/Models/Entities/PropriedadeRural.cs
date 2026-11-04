@@ -14,15 +14,18 @@ namespace CafeGestaoAPI.Models.Entities
         [Precision(10,3)]
         public required decimal AreaCultivadaHa  { get; set; }
 
+        [MaxLength(100)]
+        public string? NomeProprietario { get; set; }
+
+        [MaxLength(14)]
+        public string? CpfProprietario { get; set; }
+
         public bool Ativo { get; set; } = true;
 
         // chaves estrangeiras
 
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; } = null!;
-
-        public int ProprietarioId { get; set; }
-        public Proprietario Proprietario { get; set; } = null!;
 
         public int EnderecoId { get; set; }
         public Endereco Endereco { get; set; } = null!;

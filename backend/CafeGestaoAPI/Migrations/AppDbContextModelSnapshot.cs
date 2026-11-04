@@ -255,6 +255,10 @@ namespace CafeGestaoAPI.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("CpfProprietario")
+                        .HasMaxLength(14)
+                        .HasColumnType("varchar(14)");
+
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime(6)");
 
@@ -269,8 +273,9 @@ namespace CafeGestaoAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("ProprietarioId")
-                        .HasColumnType("int");
+                    b.Property<string>("NomeProprietario")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
@@ -280,62 +285,9 @@ namespace CafeGestaoAPI.Migrations
                     b.HasIndex("EnderecoId")
                         .IsUnique();
 
-                    b.HasIndex("ProprietarioId");
-
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("PropriedadesRurais");
-                });
-
-            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Proprietario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Cpf")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("varchar(14)");
-
-                    b.Property<DateTime?>("DataAtualizacao")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateOnly>("DataNascimento")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId", "Cpf")
-                        .IsUnique();
-
-                    b.ToTable("Proprietarios");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Talhao", b =>
@@ -515,12 +467,6 @@ namespace CafeGestaoAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CafeGestaoAPI.Models.Entities.Proprietario", "Proprietario")
-                        .WithMany("PropriedadesRurais")
-                        .HasForeignKey("ProprietarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
                         .WithMany("PropriedadesRurais")
                         .HasForeignKey("UsuarioId")
@@ -528,19 +474,6 @@ namespace CafeGestaoAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Endereco");
-
-                    b.Navigation("Proprietario");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Proprietario", b =>
-                {
-                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
-                        .WithMany("Proprietarios")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });
@@ -576,11 +509,6 @@ namespace CafeGestaoAPI.Migrations
                     b.Navigation("Talhoes");
                 });
 
-            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Proprietario", b =>
-                {
-                    b.Navigation("PropriedadesRurais");
-                });
-
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Usuario", b =>
                 {
                     b.Navigation("Fornecedores");
@@ -588,8 +516,6 @@ namespace CafeGestaoAPI.Migrations
                     b.Navigation("Insumos");
 
                     b.Navigation("PropriedadesRurais");
-
-                    b.Navigation("Proprietarios");
                 });
 #pragma warning restore 612, 618
         }

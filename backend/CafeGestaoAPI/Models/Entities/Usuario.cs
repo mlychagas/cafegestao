@@ -30,8 +30,6 @@ namespace CafeGestaoAPI.Models.Entities
 
         public ICollection<Insumo> Insumos { get; set; } = new List<Insumo>();
 
-        public ICollection<Proprietario> Proprietarios { get; set; } = new List<Proprietario>();
-
         public ICollection<Fornecedor> Fornecedores { get; set; } = new List<Fornecedor>();
     }
 }
