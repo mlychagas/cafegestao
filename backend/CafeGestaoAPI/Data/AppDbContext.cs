@@ -42,7 +42,8 @@ namespace CafeGestaoAPI.Data
                        .WithMany(u => u.PropriedadesRurais)
                        .HasForeignKey(p => p.UsuarioId)
                        .OnDelete(DeleteBehavior.Restrict);
-
+                entity.HasIndex(p => new { p.UsuarioId, p.Nome })
+                       .IsUnique();
             });
 
             modelBuilder.Entity<Fornecedor>(entity => {

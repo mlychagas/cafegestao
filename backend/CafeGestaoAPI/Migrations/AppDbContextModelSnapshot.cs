@@ -285,7 +285,8 @@ namespace CafeGestaoAPI.Migrations
                     b.HasIndex("EnderecoId")
                         .IsUnique();
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioId", "Nome")
+                        .IsUnique();
 
                     b.ToTable("PropriedadesRurais");
                 });
