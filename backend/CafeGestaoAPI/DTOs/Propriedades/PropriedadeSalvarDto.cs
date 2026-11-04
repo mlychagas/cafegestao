@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using CafeGestaoAPI.DTOs.Comum;
 
 namespace CafeGestaoAPI.DTOs.Propriedades
@@ -17,9 +18,11 @@ namespace CafeGestaoAPI.DTOs.Propriedades
         [Range(0, 9999999.999, ErrorMessage = "A área cultivada não pode ser negativa.")]
         public decimal? AreaCultivadaHa { get; set; }
 
+        [DefaultValue(null)]
         [MaxLength(100, ErrorMessage = "O nome do proprietário deve ter no máximo 100 caracteres.")]
         public string? NomeProprietario { get; set; }
 
+        [DefaultValue(null)]
         [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "Informe o CPF no formato 000.000.000-00.")]
         public string? CpfProprietario { get; set; }
 
@@ -28,9 +31,9 @@ namespace CafeGestaoAPI.DTOs.Propriedades
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if(AreaCultivadaHa > AreaTotalHa)
+            if (AreaCultivadaHa > AreaTotalHa)
             {
-                yield return new ValidationResult("A área cultivada não pode ser maior que a área total.", 
+                yield return new ValidationResult("A área cultivada não pode ser maior que a área total.",
                     new[] { nameof(AreaCultivadaHa) });
             }
         }

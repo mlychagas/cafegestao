@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CafeGestaoAPI.DTOs.Comum
 {
@@ -30,9 +31,11 @@ namespace CafeGestaoAPI.DTOs.Comum
             ErrorMessage = "Informe uma UF válida (ex.: RO).")]
         public string Uf { get; set; } = string.Empty;
 
+        [DefaultValue("Brasil")]
         [MaxLength(50, ErrorMessage = "O país deve ter no máximo 50 caracteres.")]
         public string? Pais { get; set; }
 
+        [DefaultValue(null)]
         [MaxLength(100, ErrorMessage = "O complemento deve ter no máximo 100 caracteres.")]
         public string? Complemento { get; set; }
     }

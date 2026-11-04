@@ -21,7 +21,11 @@ namespace CafeGestaoAPI.Controllers
 
         private static readonly CultureInfo PtBr = new("pt-BR");
 
-        private const string MensagemNomeDuplicado = "Já existe uma propriedade com este nome.";
+        private const string MensagemNomeDuplicado = "Já existe uma propriedade rural cadastrada com este nome.";
+
+        private const string CampoNome = "nome";
+
+        private const string CampoAreaCultivada = "areaCultivadaHa";
 
         public PropriedadesController(AppDbContext context)
         {
@@ -54,7 +58,8 @@ namespace CafeGestaoAPI.Controllers
             }
 
             var propriedades = await consulta
-                .OrderBy(p => p.Nome)
+                .OrderByDescending(p => p.DataCriacao)
+                .ThenByDescending(p => p.Id)
                 .Select(Projecao)
                 .ToListAsync();
 
@@ -62,7 +67,7 @@ namespace CafeGestaoAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-       public async Task<ActionResult<PropriedadeRespostaDto>> Obter(int id)
+        public async Task<ActionResult<PropriedadeRespostaDto>> Obter(int id)
         {
             if (User.ObterUsuarioId() is not int usuarioId)
             {
@@ -93,7 +98,7 @@ namespace CafeGestaoAPI.Controllers
 
             if (mensagemDuplicado is not null)
             {
-                return Conflict(new { mensagem = mensagemDuplicado });
+                return ConflitoNoCampo(CampoNome, mensagemDuplicado);
             }
 
             var propriedade = new PropriedadeRural
@@ -115,7 +120,7 @@ namespace CafeGestaoAPI.Controllers
             }
             catch (DbUpdateException ex) when (EhNomeDuplicado(ex))
             {
-                return Conflict(new { mensagem = MensagemNomeDuplicado });
+                return ConflitoNoCampo(CampoNome, MensagemNomeDuplicado);
             }
 
             var resposta = await ConsultarPorId(propriedade.Id, usuarioId);
@@ -146,7 +151,7 @@ namespace CafeGestaoAPI.Controllers
 
             if (mensagemDuplicado is not null)
             {
-                return Conflict(new { mensagem = mensagemDuplicado });
+                return ConflitoNoCampo(CampoNome, mensagemDuplicado);
             }
 
             var areaTalhoesAtivos = await _context.Talhoes
@@ -155,11 +160,10 @@ namespace CafeGestaoAPI.Controllers
 
             if (dto.AreaCultivadaHa < areaTalhoesAtivos)
             {
-                return Conflict(new
-                {
-                    mensagem = $"A área cultivada não pode ser menor que a soma das áreas dos talhões ativos " +
-                               $"({areaTalhoesAtivos.ToString("N3", PtBr)} ha)."
-                });
+                return ConflitoNoCampo(
+                    CampoAreaCultivada,
+                    $"A área cultivada não pode ser menor que a soma das áreas dos talhões ativos " +
+                    $"({areaTalhoesAtivos.ToString("N3", PtBr)} ha).");
             }
 
             propriedade.Nome = nome;
@@ -175,7 +179,7 @@ namespace CafeGestaoAPI.Controllers
             }
             catch (DbUpdateException ex) when (EhNomeDuplicado(ex))
             {
-                return Conflict(new { mensagem = MensagemNomeDuplicado });
+                return ConflitoNoCampo(CampoNome, MensagemNomeDuplicado);
             }
 
             return NoContent();
@@ -289,8 +293,11 @@ namespace CafeGestaoAPI.Controllers
 
             return existente.Ativo
                 ? MensagemNomeDuplicado
-                : "Já existe uma propriedade inativa com este nome. Reative-a em vez de cadastrar outra.";
+                : "Já existe uma propriedade rural inativa cadastrada com este nome. Reative-a em vez de cadastrar outra.";
         }
+
+        private ConflictObjectResult ConflitoNoCampo(string campo, string mensagem) =>
+            Conflict(new { mensagem, campo });
 
         private static bool EhNomeDuplicado(DbUpdateException ex) =>
             ex.InnerException is MySqlException { ErrorCode: MySqlErrorCode.DuplicateKeyEntry };
