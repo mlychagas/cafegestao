@@ -10,6 +10,21 @@ const tema = {
     colorBgLayout: '#F7F5F2',
     fontFamily: "'Manrope', sans-serif"
   },
+  components: {
+    Layout: {
+      siderBg: '#4A2E1B',
+      headerBg: '#FFFFFF',
+      bodyBg: '#F7F5F2'
+    },
+    Menu:{
+      darkItemBg: '#4A2E1B',
+      darkItemColor: '#EFE6DC',
+      darkItemHoverBg:	'rgba(255,255,255,0.06)',
+      darkItemSelectedBg:	'rgba(127,166,113,0.18)',
+      darkItemSelectedColor: '#FFFFFF',
+      darkGroupTitleColor: '#C9BBAC',
+    }
+  }
 };
 
 export default tema;

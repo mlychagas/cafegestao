@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { cadastrar } from "../../api/authApi.js";
 import { tratarErroApi } from "../../utils/tratarErroApi.js";
+import { Logo } from "../../components/Logo.jsx";
 
 export function Cadastro() {
     const [enviando, setEnviando] = useState(false);
@@ -34,7 +35,9 @@ export function Cadastro() {
     }
     return (
         <div>
-            <Typography.Title level={3}>CaféGestão</Typography.Title>
+            <div style={{ marginBottom: 8 }}>
+                <Logo />
+            </div>
             <Typography.Text type="secondary">
                 Crie sua conta para começar a gerenciar sua propriedade rural
             </Typography.Text>

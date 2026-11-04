@@ -1,10 +1,11 @@
-import { useAuth } from "../../contexts/useAuth.js";
+import { Typography } from "antd";
 
 export function Inicio() {
-    const {usuario} = useAuth();
+    
     return (
         <div>
-            <h2>Bem-vindo, {usuario.nome}</h2>
+            <Typography.Title level={3} >Resumo Operacional</Typography.Title>
+            <Typography.Text type="secondary">Visão consolidada da propriedade selecionada</Typography.Text>
         </div>
     );
 }

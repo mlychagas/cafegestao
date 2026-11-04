@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../contexts/useAuth.js";
 import { tratarErroApi } from "../../utils/tratarErroApi.js";
+import { Logo } from "../../components/Logo.jsx";
 
 export function Login() {
     const { entrar } = useAuth();
@@ -24,7 +25,9 @@ export function Login() {
 
     return (
         <div>
-            <Typography.Title level={3}>CaféGestão</Typography.Title>
+            <div style={{ marginBottom: 8 }}>
+                <Logo />
+            </div>
             <Typography.Text type="secondary">
                 Gestão administrativa da propriedade rural
             </Typography.Text>
