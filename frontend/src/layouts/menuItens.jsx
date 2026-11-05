@@ -1,4 +1,4 @@
-import { UserOutlined, HomeOutlined, EnvironmentOutlined, ShopOutlined, ShoppingCartOutlined, ExperimentOutlined } from '@ant-design/icons';
+import { HomeOutlined, EnvironmentOutlined, ShopOutlined, ShoppingCartOutlined, ExperimentOutlined } from '@ant-design/icons';
 
 const menuItens = [
   {
@@ -12,7 +12,6 @@ const menuItens = [
     type: 'group',
     label: 'Planejamento',
     children: [
-      { key: '/proprietarios', icon: <UserOutlined />, label: 'Proprietários' },
       { key: '/propriedades', icon: <EnvironmentOutlined />, label: 'Propriedades Rurais' },
     ],
   },

@@ -1,0 +1,2 @@
+export const CONSEQUENCIA_INATIVAR = 'Ela não poderá receber novos talhões nem safras. Os dados serão mantidos.';
+export const CONSEQUENCIA_REATIVAR = 'Ela voltará a ficar disponível para talhões e safras.';

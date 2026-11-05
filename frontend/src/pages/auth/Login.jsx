@@ -36,7 +36,7 @@ export function Login() {
                 <Alert
                     type="error"
                     showIcon
-                    message={mensagemErro}
+                    title={mensagemErro}
                     style={{ marginBottom: 16 }}
                 />
             )}
