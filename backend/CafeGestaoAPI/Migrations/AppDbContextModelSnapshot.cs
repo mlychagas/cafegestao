@@ -340,7 +340,8 @@ namespace CafeGestaoAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PropriedadeRuralId");
+                    b.HasIndex("PropriedadeRuralId", "Nome")
+                        .IsUnique();
 
                     b.ToTable("Talhoes");
                 });
