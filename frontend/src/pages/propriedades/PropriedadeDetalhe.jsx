@@ -1,12 +1,13 @@
-import { App, Breadcrumb, Button, Card, Descriptions, Empty, Flex, Result, Spin, Tag, Tooltip, Typography } from 'antd';
+import { App, Breadcrumb, Button, Card, Descriptions, Flex, Result, Spin, Tag, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { inativarPropriedade, obterPropriedade, reativarPropriedade } from '../../api/propriedadesApi.js';
 import { tratarErroApi } from '../../utils/tratarErroApi.js';
 import { formatarArea, textoOuTraco } from '../../utils/formatadores.js';
-import { BotaoEditar, BotaoNovo, BotaoSituacao, BotaoVoltar } from '../../components/Botoes.jsx';
+import { BotaoEditar, BotaoSituacao, BotaoVoltar } from '../../components/Botoes.jsx';
 import { PropriedadeFormModal } from './PropriedadeFormModal.jsx';
 import { CONSEQUENCIA_INATIVAR, CONSEQUENCIA_REATIVAR } from './textosPropriedade.js';
+import { TalhoesPropriedade } from '../talhoes/TalhoesPropriedade.jsx';
 
 const COLUNAS_DESCRICAO = { xs: 1, sm: 2, lg: 3 };
 
@@ -174,28 +175,7 @@ export function PropriedadeDetalhe() {
           <Descriptions column={COLUNAS_DESCRICAO} items={itensEndereco} />
         </Card>
 
-        <Card
-          title="Talhões"
-          extra={
-            <Tooltip title="O cadastro de talhões será liberado na próxima etapa.">
-              <span>
-                <BotaoNovo desabilitado />
-              </span>
-            </Tooltip>
-          }
-        >
-          <Typography.Paragraph type="secondary">
-            Subdivisões da propriedade rural utilizadas no planejamento de safras.
-          </Typography.Paragraph>
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description={
-              propriedade.quantidadeTalhoes > 0
-                ? `${propriedade.quantidadeTalhoes} talhão(ões) ativo(s), somando ${formatarArea(propriedade.areaTalhoesHa)}.`
-                : 'Nenhum talhão cadastrado nesta propriedade.'
-            }
-          />
-        </Card>
+        <TalhoesPropriedade propriedade={propriedade} aoAlterar={recarregar} />
       </Flex>
 
       <PropriedadeFormModal
