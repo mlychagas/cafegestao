@@ -82,6 +82,9 @@ namespace CafeGestaoAPI.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Celular")
                         .HasMaxLength(16)
                         .HasColumnType("varchar(16)");

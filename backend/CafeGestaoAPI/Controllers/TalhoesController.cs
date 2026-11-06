@@ -36,8 +36,6 @@ namespace CafeGestaoAPI.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<TalhaoRespostaDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<List<TalhaoRespostaDto>>> Listar(
             [FromQuery] int? propriedadeId,
             [FromQuery] string? nome,
@@ -78,9 +76,6 @@ namespace CafeGestaoAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [ProducesResponseType(typeof(TalhaoRespostaDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TalhaoRespostaDto>> Obter(int id)
         {
             if (User.ObterUsuarioId() is not int usuarioId)
@@ -99,11 +94,6 @@ namespace CafeGestaoAPI.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(TalhaoRespostaDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<TalhaoRespostaDto>> Cadastrar(TalhaoCadastroDto dto)
         {
             if (User.ObterUsuarioId() is not int usuarioId)
@@ -171,11 +161,6 @@ namespace CafeGestaoAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Atualizar(int id, TalhaoSalvarDto dto)
         {
             if (User.ObterUsuarioId() is not int usuarioId)
@@ -230,9 +215,6 @@ namespace CafeGestaoAPI.Controllers
         }
 
         [HttpPatch("{id:int}/inativar")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Inativar(int id)
         {
             if (User.ObterUsuarioId() is not int usuarioId)
@@ -258,10 +240,6 @@ namespace CafeGestaoAPI.Controllers
         }
 
         [HttpPatch("{id:int}/reativar")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Reativar(int id)
         {
             if (User.ObterUsuarioId() is not int usuarioId)

@@ -19,6 +19,8 @@ namespace CafeGestaoAPI.Models.Entities
         [MaxLength(100)]
         public required string Email { get; set; }
 
+        public bool Ativo { get; set; } = true;
+
         // chaves estrangeiras
         public int EnderecoId { get; set; }
         public Endereco Endereco { get; set; } = null!;
