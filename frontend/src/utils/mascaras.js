@@ -35,3 +35,20 @@ export function mascararTelefone(valor) {
 export const REGEX_CPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
 export const REGEX_CEP = /^\d{5}-\d{3}$/;
 export const REGEX_TELEFONE = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+
+export function mascararCpfCnpj(valor) {
+  const c = (valor ?? '').toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 14);
+
+  if (c.length <= 11 && /^\d*$/.test(c)) return mascararCpf(c);
+
+  let resultado = c.slice(0, 2);
+  if (c.length > 2) resultado += `.${c.slice(2, 5)}`;
+  if (c.length > 5) resultado += `.${c.slice(5, 8)}`;
+  if (c.length > 8) resultado += `/${c.slice(8, 12)}`;
+  if (c.length > 12) resultado += `-${c.slice(12)}`;
+  return resultado;
+}
+
+export const REGEX_CNPJ = /^[0-9A-Z]{2}\.[0-9A-Z]{3}\.[0-9A-Z]{3}\/[0-9A-Z]{4}-\d{2}$/;
+export const REGEX_CELULAR = /^\(\d{2}\) \d{5}-\d{4}$/;
+export const REGEX_EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;

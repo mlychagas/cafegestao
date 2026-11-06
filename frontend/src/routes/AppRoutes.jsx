@@ -8,6 +8,8 @@ import { Login } from "../pages/auth/Login.jsx";
 import { Cadastro } from "../pages/auth/Cadastro.jsx";
 import { Propriedades } from "../pages/propriedades/Propriedades.jsx";
 import { PropriedadeDetalhe } from "../pages/propriedades/PropriedadeDetalhe.jsx";
+import { Fornecedores } from "../pages/fornecedores/Fornecedores.jsx";
+import { FornecedorDetalhe } from "../pages/fornecedores/FornecedorDetalhe.jsx";
 
 export function AppRoutes() {
     return (
@@ -23,6 +25,8 @@ export function AppRoutes() {
                     <Route index element={<Inicio />} />
                     <Route path="propriedades" element={<Propriedades />} />
                     <Route path="propriedades/:id" element={<PropriedadeDetalhe />} />
+                    <Route path="fornecedores" element={<Fornecedores />} />
+                    <Route path="fornecedores/:id" element={<FornecedorDetalhe />} />
                 </Route>
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
