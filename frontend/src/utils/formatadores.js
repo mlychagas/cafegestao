@@ -31,3 +31,10 @@ export function formatarInteiro(valor) {
 export function textoOuTraco(valor) {
   return valor ? valor : '—';
 }
+
+const formatoQuantidade = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 3 });
+
+export function formatarQuantidade(valor, sigla) {
+  if (valor === null || valor === undefined) return '—';
+  return sigla ? `${formatoQuantidade.format(valor)} ${sigla}` : formatoQuantidade.format(valor);
+}

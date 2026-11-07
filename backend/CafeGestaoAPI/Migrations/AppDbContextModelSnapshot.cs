@@ -140,6 +140,9 @@ namespace CafeGestaoAPI.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Categoria")
                         .IsRequired()
                         .HasMaxLength(20)

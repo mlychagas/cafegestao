@@ -19,6 +19,8 @@ namespace CafeGestaoAPI.Models.Entities
 
         public CategoriaInsumo Categoria { get; set; }
 
+        public bool Ativo { get; set; } = true;
+
         // chaves estrangeiras
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; } = null!;
