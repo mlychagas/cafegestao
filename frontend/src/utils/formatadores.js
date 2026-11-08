@@ -38,3 +38,10 @@ export function formatarQuantidade(valor, sigla) {
   if (valor === null || valor === undefined) return '—';
   return sigla ? `${formatoQuantidade.format(valor)} ${sigla}` : formatoQuantidade.format(valor);
 }
+
+const formatoMoeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+export function formatarMoeda(valor) {
+  if (valor === null || valor === undefined) return '—';
+  return formatoMoeda.format(valor);
+}

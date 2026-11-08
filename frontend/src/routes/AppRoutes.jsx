@@ -11,6 +11,9 @@ import { PropriedadeDetalhe } from "../pages/propriedades/PropriedadeDetalhe.jsx
 import { Fornecedores } from "../pages/fornecedores/Fornecedores.jsx";
 import { FornecedorDetalhe } from "../pages/fornecedores/FornecedorDetalhe.jsx";
 import { Insumos } from "../pages/insumos/Insumos.jsx";
+import { Compras } from "../pages/compras/Compras.jsx";
+import { CompraDetalhe } from "../pages/compras/CompraDetalhe.jsx";
+import { CompraFormulario } from "../pages/compras/CompraFormulario.jsx";
 
 export function AppRoutes() {
     return (
@@ -29,6 +32,10 @@ export function AppRoutes() {
                     <Route path="fornecedores" element={<Fornecedores />} />
                     <Route path="fornecedores/:id" element={<FornecedorDetalhe />} />
                     <Route path="insumos" element={<Insumos />} />
+                    <Route path="compras" element={<Compras />} />
+                    <Route path="compras/nova" element={<CompraFormulario />} />
+                    <Route path="compras/:id" element={<CompraDetalhe />} />
+                    <Route path="compras/:id/editar" element={<CompraFormulario />} />
                 </Route>
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
