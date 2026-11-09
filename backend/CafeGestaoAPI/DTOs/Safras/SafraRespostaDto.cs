@@ -22,8 +22,6 @@ namespace CafeGestaoAPI.DTOs.Safras
 
         public UnidadeProdutividade? UnidadeMedida { get; set; }
 
-        public int QuantidadeAtividades { get; set; }
-
         public int QuantidadeColheitas { get; set; }
 
         public DateTime DataCriacao { get; set; }

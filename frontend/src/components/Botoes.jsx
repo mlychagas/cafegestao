@@ -69,7 +69,7 @@ export function BotaoSituacao({
   );
 }
 
-export function BotaoExcluir({ nomeItem, consequencia, onConfirmar, naTabela = true }) {
+export function BotaoExcluir({ nomeItem, consequencia, onConfirmar, naTabela = true, desabilitado = false }) {
   return (
     <Popconfirm
       title={`Excluir ${nomeItem}?`}
@@ -78,8 +78,9 @@ export function BotaoExcluir({ nomeItem, consequencia, onConfirmar, naTabela = t
       cancelText="Cancelar"
       okButtonProps={{ danger: true }}
       onConfirm={onConfirmar}
+      disabled={desabilitado}
     >
-      <Button type={naTabela ? 'link' : 'default'} danger icon={<DeleteOutlined />}>
+      <Button type={naTabela ? 'link' : 'default'} danger icon={<DeleteOutlined />} disabled={desabilitado}>
         Excluir
       </Button>
     </Popconfirm>

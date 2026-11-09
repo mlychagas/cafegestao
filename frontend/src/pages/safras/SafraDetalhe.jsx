@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Descriptions, Empty, Flex, Result, Spin, Typography } from 'antd';
+import { Breadcrumb, Button, Card, Descriptions, Flex, Result, Spin, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { obterSafra } from '../../api/safrasApi.js';
@@ -94,7 +94,6 @@ export function SafraDetalhe() {
       label: 'Produtividade estimada',
       children: formatarQuantidade(safra.produtividadeEstimada, siglaProdutividade(safra.unidadeMedida)),
     },
-    { key: 'atividades', label: 'Atividades de manejo', children: safra.quantidadeAtividades },
     { key: 'colheitas', label: 'Colheitas', children: safra.quantidadeColheitas },
     { key: 'cadastro', label: 'Cadastrada em', children: formatarData(safra.dataCriacao) },
     { key: 'atualizacao', label: 'Última atualização', children: formatarData(safra.dataAtualizacao) },
@@ -126,13 +125,6 @@ export function SafraDetalhe() {
       <Flex vertical gap={16}>
         <Card title="Dados da safra">
           <Descriptions column={COLUNAS_DESCRICAO} items={itensDados} />
-        </Card>
-
-        <Card title="Atividades de manejo">
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description="As atividades de manejo desta safra aparecerão aqui."
-          />
         </Card>
       </Flex>
 

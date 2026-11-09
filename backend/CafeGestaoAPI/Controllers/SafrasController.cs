@@ -200,7 +200,6 @@ namespace CafeGestaoAPI.Controllers
                 DataFechamento = s.DataFechamento,
                 ProdutividadeEstimada = s.ProdutividadeEstimada,
                 UnidadeMedida = s.UnidadeMedida,
-                QuantidadeAtividades = s.AtividadesManejo.Count(),
                 QuantidadeColheitas = s.Colheitas.Count(),
                 DataCriacao = s.DataCriacao,
                 DataAtualizacao = s.DataAtualizacao
