@@ -32,5 +32,7 @@ namespace CafeGestaoAPI.Models.Entities
 
         // Collections
         public ICollection<Talhao> Talhoes { get; set; } = new List<Talhao>();
+
+        public ICollection<Safra> Safras { get; set; } = new List<Safra>();
     }
 }

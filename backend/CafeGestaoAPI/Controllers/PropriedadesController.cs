@@ -5,6 +5,7 @@ using CafeGestaoAPI.DTOs.Comum;
 using CafeGestaoAPI.DTOs.Propriedades;
 using CafeGestaoAPI.Extensions;
 using CafeGestaoAPI.Models.Entities;
+using CafeGestaoAPI.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -215,6 +216,18 @@ namespace CafeGestaoAPI.Controllers
                 {
                     mensagem = "Não é possível inativar a propriedade porque ela possui talhões ativos. " +
                                "Inative os talhões primeiro."
+                });
+            }
+
+            var possuiSafrasAtivas = await _context.Safras
+                .AnyAsync(s => s.PropriedadeRuralId == id && s.Status != StatusSafra.Encerrada);
+
+            if (possuiSafrasAtivas)
+            {
+                return Conflict(new
+                {
+                    mensagem = "Não é possível inativar a propriedade porque ela possui safras planejadas ou em andamento. " +
+                               "Encerre as safras primeiro."
                 });
             }
 

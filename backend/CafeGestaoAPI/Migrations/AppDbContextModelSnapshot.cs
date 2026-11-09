@@ -22,6 +22,116 @@ namespace CafeGestaoAPI.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeManejo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly?>("DataConclusao")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("DataPlanejada")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<decimal?>("HorasPrevistas")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)");
+
+                    b.Property<decimal?>("HorasTrabalhadas")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)");
+
+                    b.Property<string>("Observacao")
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<int>("SafraId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int>("TipoManejoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SafraId");
+
+                    b.HasIndex("TipoManejoId");
+
+                    b.ToTable("AtividadesManejo");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Colheita", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AtividadeManejoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly?>("DataFim")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("DataInicio")
+                        .HasColumnType("date");
+
+                    b.Property<string>("FormaColheita")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Observacao")
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<decimal>("Quantidade")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<int>("SafraId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UnidadeMedida")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AtividadeManejoId")
+                        .IsUnique();
+
+                    b.HasIndex("SafraId");
+
+                    b.ToTable("Colheitas");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Endereco", b =>
                 {
                     b.Property<int>("Id")
@@ -297,6 +407,55 @@ namespace CafeGestaoAPI.Migrations
                     b.ToTable("PropriedadesRurais");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Safra", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AnoAgricola")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly?>("DataFechamento")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("DataInicio")
+                        .HasColumnType("date");
+
+                    b.Property<decimal?>("ProdutividadeEstimada")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<int>("PropriedadeRuralId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("UnidadeMedida")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PropriedadeRuralId", "AnoAgricola")
+                        .IsUnique();
+
+                    b.ToTable("Safras");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Talhao", b =>
                 {
                     b.Property<int>("Id")
@@ -352,6 +511,70 @@ namespace CafeGestaoAPI.Migrations
                     b.ToTable("Talhoes");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TalhaoAtividadeManejo", b =>
+                {
+                    b.Property<int>("TalhaoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AtividadeManejoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TalhaoId", "AtividadeManejoId");
+
+                    b.HasIndex("AtividadeManejoId");
+
+                    b.ToTable("TalhoesAtividadeManejo");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TalhaoColheita", b =>
+                {
+                    b.Property<int>("TalhaoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ColheitaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TalhaoId", "ColheitaId");
+
+                    b.HasIndex("ColheitaId");
+
+                    b.ToTable("TalhoesColheita");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TipoManejo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId", "Nome")
+                        .IsUnique();
+
+                    b.ToTable("TiposManejo");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -405,6 +628,44 @@ namespace CafeGestaoAPI.Migrations
                         .IsUnique();
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeManejo", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Safra", "Safra")
+                        .WithMany("AtividadesManejo")
+                        .HasForeignKey("SafraId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.TipoManejo", "TipoManejo")
+                        .WithMany("AtividadesManejo")
+                        .HasForeignKey("TipoManejoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Safra");
+
+                    b.Navigation("TipoManejo");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Colheita", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.AtividadeManejo", "AtividadeManejo")
+                        .WithOne("Colheita")
+                        .HasForeignKey("CafeGestaoAPI.Models.Entities.Colheita", "AtividadeManejoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Safra", "Safra")
+                        .WithMany("Colheitas")
+                        .HasForeignKey("SafraId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AtividadeManejo");
+
+                    b.Navigation("Safra");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Fornecedor", b =>
@@ -486,6 +747,17 @@ namespace CafeGestaoAPI.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Safra", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.PropriedadeRural", "PropriedadeRural")
+                        .WithMany("Safras")
+                        .HasForeignKey("PropriedadeRuralId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PropriedadeRural");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Talhao", b =>
                 {
                     b.HasOne("CafeGestaoAPI.Models.Entities.PropriedadeRural", "PropriedadeRural")
@@ -495,6 +767,67 @@ namespace CafeGestaoAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("PropriedadeRural");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TalhaoAtividadeManejo", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.AtividadeManejo", "AtividadeManejo")
+                        .WithMany("Talhoes")
+                        .HasForeignKey("AtividadeManejoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Talhao", "Talhao")
+                        .WithMany()
+                        .HasForeignKey("TalhaoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AtividadeManejo");
+
+                    b.Navigation("Talhao");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TalhaoColheita", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Colheita", "Colheita")
+                        .WithMany("Talhoes")
+                        .HasForeignKey("ColheitaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Talhao", "Talhao")
+                        .WithMany()
+                        .HasForeignKey("TalhaoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Colheita");
+
+                    b.Navigation("Talhao");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TipoManejo", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeManejo", b =>
+                {
+                    b.Navigation("Colheita");
+
+                    b.Navigation("Talhoes");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Colheita", b =>
+                {
+                    b.Navigation("Talhoes");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Fornecedor", b =>
@@ -514,7 +847,21 @@ namespace CafeGestaoAPI.Migrations
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.PropriedadeRural", b =>
                 {
+                    b.Navigation("Safras");
+
                     b.Navigation("Talhoes");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Safra", b =>
+                {
+                    b.Navigation("AtividadesManejo");
+
+                    b.Navigation("Colheitas");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TipoManejo", b =>
+                {
+                    b.Navigation("AtividadesManejo");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Usuario", b =>

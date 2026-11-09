@@ -2,6 +2,7 @@ import { Button, Popconfirm } from 'antd';
 import {
   ArrowLeftOutlined,
   CheckCircleOutlined,
+  DeleteOutlined,
   EditOutlined,
   EyeOutlined,
   PlusOutlined,
@@ -63,6 +64,23 @@ export function BotaoSituacao({
         icon={ativo ? <StopOutlined /> : <CheckCircleOutlined />}
       >
         {ativo ? 'Inativar' : 'Reativar'}
+      </Button>
+    </Popconfirm>
+  );
+}
+
+export function BotaoExcluir({ nomeItem, consequencia, onConfirmar, naTabela = true }) {
+  return (
+    <Popconfirm
+      title={`Excluir ${nomeItem}?`}
+      description={consequencia}
+      okText="Excluir"
+      cancelText="Cancelar"
+      okButtonProps={{ danger: true }}
+      onConfirm={onConfirmar}
+    >
+      <Button type={naTabela ? 'link' : 'default'} danger icon={<DeleteOutlined />}>
+        Excluir
       </Button>
     </Popconfirm>
   );
