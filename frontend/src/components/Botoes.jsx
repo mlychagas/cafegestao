@@ -86,3 +86,30 @@ export function BotaoExcluir({ nomeItem, consequencia, onConfirmar, naTabela = t
     </Popconfirm>
   );
 }
+
+export function BotaoConfirmar({
+  rotulo,
+  titulo,
+  descricao,
+  icone,
+  perigo = false,
+  onConfirmar,
+  naTabela = true,
+  desabilitado = false,
+}) {
+  return (
+    <Popconfirm
+      title={titulo}
+      description={descricao}
+      okText={rotulo}
+      cancelText="Voltar"
+      okButtonProps={{ danger: perigo }}
+      onConfirm={onConfirmar}
+      disabled={desabilitado}
+    >
+      <Button type={naTabela ? 'link' : 'default'} danger={perigo} icon={icone} disabled={desabilitado}>
+        {rotulo}
+      </Button>
+    </Popconfirm>
+  );
+}

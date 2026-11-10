@@ -20,7 +20,7 @@ export function TiposManejoModal({ aberto, aoFechar, aoAlterar }) {
       title="Tipos de manejo"
       open={aberto}
       onCancel={aoFechar}
-      footer={<Button onClick={aoFechar}>Fechar</Button>}
+      footer={null}
       closable={{ closeIcon: <CloseOutlined />, 'aria-label': 'Fechar' }}
       mask={{ closable: false }}
       width={760}

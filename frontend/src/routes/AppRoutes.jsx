@@ -10,6 +10,8 @@ import { Propriedades } from "../pages/propriedades/Propriedades.jsx";
 import { PropriedadeDetalhe } from "../pages/propriedades/PropriedadeDetalhe.jsx";
 import { Safras } from "../pages/safras/Safras.jsx";
 import { SafraDetalhe } from "../pages/safras/SafraDetalhe.jsx";
+import { AtividadesManejo } from "../pages/manejo/AtividadesManejo.jsx";
+import { AtividadeManejoDetalhe } from "../pages/manejo/AtividadeManejoDetalhe.jsx";
 import { Fornecedores } from "../pages/fornecedores/Fornecedores.jsx";
 import { FornecedorDetalhe } from "../pages/fornecedores/FornecedorDetalhe.jsx";
 import { Insumos } from "../pages/insumos/Insumos.jsx";
@@ -33,6 +35,8 @@ export function AppRoutes() {
                     <Route path="propriedades/:id" element={<PropriedadeDetalhe />} />
                     <Route path="safras" element={<Safras />} />
                     <Route path="safras/:id" element={<SafraDetalhe />} />
+                    <Route path="atividades-manejo" element={<AtividadesManejo />} />
+                    <Route path="atividades-manejo/:id" element={<AtividadeManejoDetalhe />} />
                     <Route path="fornecedores" element={<Fornecedores />} />
                     <Route path="fornecedores/:id" element={<FornecedorDetalhe />} />
                     <Route path="insumos" element={<Insumos />} />
