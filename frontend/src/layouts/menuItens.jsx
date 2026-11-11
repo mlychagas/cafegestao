@@ -1,4 +1,4 @@
-import { HomeOutlined, EnvironmentOutlined, CalendarOutlined, ToolOutlined, ShopOutlined, ShoppingCartOutlined, ExperimentOutlined } from '@ant-design/icons';
+import { HomeOutlined, EnvironmentOutlined, CalendarOutlined, ToolOutlined, TeamOutlined, ShopOutlined, ShoppingCartOutlined, ExperimentOutlined } from '@ant-design/icons';
 
 const menuItens = [
   {
@@ -15,6 +15,7 @@ const menuItens = [
       { key: '/propriedades', icon: <EnvironmentOutlined />, label: 'Propriedades Rurais' },
       { key: '/safras', icon: <CalendarOutlined />, label: 'Safras' },
       { key: '/atividades-manejo', icon: <ToolOutlined />, label: 'Atividades de Manejo' },
+      { key: '/pessoas', icon: <TeamOutlined />, label: 'Pessoas' },
     ],
   },
   {

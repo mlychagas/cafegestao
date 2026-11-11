@@ -352,6 +352,51 @@ namespace CafeGestaoAPI.Migrations
                     b.ToTable("OrdensCompra");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Pessoa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("DataNascimento")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Telefone")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId", "Cpf")
+                        .IsUnique();
+
+                    b.ToTable("Pessoas");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.PropriedadeRural", b =>
                 {
                     b.Property<int>("Id")
@@ -726,6 +771,17 @@ namespace CafeGestaoAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Fornecedor");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Pessoa", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.PropriedadeRural", b =>

@@ -12,6 +12,7 @@ import { Safras } from "../pages/safras/Safras.jsx";
 import { SafraDetalhe } from "../pages/safras/SafraDetalhe.jsx";
 import { AtividadesManejo } from "../pages/manejo/AtividadesManejo.jsx";
 import { AtividadeManejoDetalhe } from "../pages/manejo/AtividadeManejoDetalhe.jsx";
+import { Pessoas } from "../pages/pessoas/Pessoas.jsx";
 import { Fornecedores } from "../pages/fornecedores/Fornecedores.jsx";
 import { FornecedorDetalhe } from "../pages/fornecedores/FornecedorDetalhe.jsx";
 import { Insumos } from "../pages/insumos/Insumos.jsx";
@@ -37,6 +38,7 @@ export function AppRoutes() {
                     <Route path="safras/:id" element={<SafraDetalhe />} />
                     <Route path="atividades-manejo" element={<AtividadesManejo />} />
                     <Route path="atividades-manejo/:id" element={<AtividadeManejoDetalhe />} />
+                    <Route path="pessoas" element={<Pessoas />} />
                     <Route path="fornecedores" element={<Fornecedores />} />
                     <Route path="fornecedores/:id" element={<FornecedorDetalhe />} />
                     <Route path="insumos" element={<Insumos />} />

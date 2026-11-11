@@ -36,6 +36,8 @@ namespace CafeGestaoAPI.Data
 
         public DbSet<ItemCompra> ItensCompra { get; set; }
 
+        public DbSet<Pessoa> Pessoas { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -97,6 +99,16 @@ namespace CafeGestaoAPI.Data
                 entity.Property(s => s.UnidadeMedida)
                       .HasConversion<string>()
                       .HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<Pessoa>(entity => {
+                entity.HasOne(p => p.Usuario)
+                      .WithMany()
+                      .HasForeignKey(p => p.UsuarioId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(p => new { p.UsuarioId, p.Cpf })
+                      .IsUnique();
             });
 
             modelBuilder.Entity<TipoManejo>(entity => {
