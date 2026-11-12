@@ -316,6 +316,49 @@ namespace CafeGestaoAPI.Migrations
                     b.ToTable("ItensCompra");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.MaoObra", b =>
+                {
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AtividadeManejoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Funcao")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<decimal>("Quantidade")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<string>("UnidadeMedida")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<decimal>("ValorTotal")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<decimal>("ValorUnitario")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("PessoaId", "AtividadeManejoId");
+
+                    b.HasIndex("AtividadeManejoId");
+
+                    b.ToTable("MaosObra");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.OrdemCompra", b =>
                 {
                     b.Property<int>("Id")
@@ -762,6 +805,25 @@ namespace CafeGestaoAPI.Migrations
                     b.Navigation("OrdemCompra");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.MaoObra", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.AtividadeManejo", "AtividadeManejo")
+                        .WithMany("MaosObra")
+                        .HasForeignKey("AtividadeManejoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Pessoa", "Pessoa")
+                        .WithMany()
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AtividadeManejo");
+
+                    b.Navigation("Pessoa");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.OrdemCompra", b =>
                 {
                     b.HasOne("CafeGestaoAPI.Models.Entities.Fornecedor", "Fornecedor")
@@ -877,6 +939,8 @@ namespace CafeGestaoAPI.Migrations
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeManejo", b =>
                 {
                     b.Navigation("Colheita");
+
+                    b.Navigation("MaosObra");
 
                     b.Navigation("Talhoes");
                 });

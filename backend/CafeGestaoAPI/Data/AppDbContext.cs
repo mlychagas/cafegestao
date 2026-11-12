@@ -38,6 +38,8 @@ namespace CafeGestaoAPI.Data
 
         public DbSet<Pessoa> Pessoas { get; set; }
 
+        public DbSet<MaoObra> MaosObra { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -109,6 +111,22 @@ namespace CafeGestaoAPI.Data
 
                 entity.HasIndex(p => new { p.UsuarioId, p.Cpf })
                       .IsUnique();
+            });
+
+            modelBuilder.Entity<MaoObra>(entity => {
+                entity.HasOne(m => m.AtividadeManejo)
+                      .WithMany(a => a.MaosObra)
+                      .HasForeignKey(m => m.AtividadeManejoId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(m => m.Pessoa)
+                      .WithMany()
+                      .HasForeignKey(m => m.PessoaId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.Property(m => m.UnidadeMedida)
+                      .HasConversion<string>()
+                      .HasMaxLength(20);
             });
 
             modelBuilder.Entity<TipoManejo>(entity => {

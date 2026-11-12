@@ -33,5 +33,7 @@ namespace CafeGestaoAPI.Models.Entities
         public Colheita? Colheita { get; set; }
 
         public ICollection<TalhaoAtividadeManejo> Talhoes { get; set; } = new List<TalhaoAtividadeManejo>();
+
+        public ICollection<MaoObra> MaosObra { get; set; } = new List<MaoObra>();
     }
 }

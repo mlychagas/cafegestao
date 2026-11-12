@@ -1,5 +1,8 @@
 function caminhoDoCampo(chave) {
-  return chave.split('.').map((parte) => parte.charAt(0).toLowerCase() + parte.slice(1));
+  return chave
+    .split(/[.[\]]/)
+    .filter(Boolean)
+    .map((parte) => (/^\d+$/.test(parte) ? Number(parte) : parte.charAt(0).toLowerCase() + parte.slice(1)));
 }
 
 function campoExiste(form, caminho) {

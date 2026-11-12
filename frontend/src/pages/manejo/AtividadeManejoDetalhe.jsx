@@ -11,6 +11,7 @@ import { tratarErroApi } from '../../utils/tratarErroApi.js';
 import { formatarArea, formatarData, formatarQuantidade, textoOuTraco } from '../../utils/formatadores.js';
 import { BotaoConfirmar, BotaoEditar, BotaoVoltar } from '../../components/Botoes.jsx';
 import { AtividadeManejoFormModal } from './AtividadeManejoFormModal.jsx';
+import { MaoObraCard } from './MaoObraCard.jsx';
 import { StatusAtividadeTag } from './StatusAtividadeTag.jsx';
 import { CONSEQUENCIA_CANCELAR_ATIVIDADE, CONSEQUENCIA_REABRIR_ATIVIDADE } from './opcoesAtividade.js';
 
@@ -217,6 +218,8 @@ export function AtividadeManejoDetalhe() {
             pagination={false}
           />
         </Card>
+
+        <MaoObraCard atividade={atividade} />
       </Flex>
 
       <AtividadeManejoFormModal
