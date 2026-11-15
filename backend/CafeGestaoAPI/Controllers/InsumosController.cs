@@ -164,21 +164,22 @@ namespace CafeGestaoAPI.Controllers
 
             if (alterouEstoque || alterouUnidade)
             {
-                var possuiMovimentacoes = await _context.ItensCompra.AnyAsync(ic => ic.InsumoId == id);
+                var possuiMovimentacoes = await _context.ItensCompra.AnyAsync(ic => ic.InsumoId == id)
+                    || await _context.AtividadesInsumo.AnyAsync(ai => ai.InsumoId == id);
 
                 if (possuiMovimentacoes && alterouEstoque)
                 {
                     return ConflitoNoCampo(
                         CampoEstoque,
-                        "A quantidade em estoque não pode ser alterada manualmente porque o insumo possui compras registradas. " +
-                        "O estoque é atualizado pelas compras.");
+                        "A quantidade em estoque não pode ser alterada manualmente porque o insumo possui compras ou uso em atividades registrados. " +
+                        "O estoque é atualizado pelas compras e pelas atividades de manejo.");
                 }
 
                 if (possuiMovimentacoes && alterouUnidade)
                 {
                     return ConflitoNoCampo(
                         CampoUnidade,
-                        "A unidade de medida não pode ser alterada porque o insumo possui compras registradas.");
+                        "A unidade de medida não pode ser alterada porque o insumo possui compras ou uso em atividades registrados.");
                 }
             }
 
@@ -260,7 +261,7 @@ namespace CafeGestaoAPI.Controllers
                 UnidadeMedida = i.UnidadeMedida,
                 QuantidadeEstoque = i.QuantidadeEstoque,
                 Ativo = i.Ativo,
-                PossuiMovimentacoes = i.ItensCompra.Any(),
+                PossuiMovimentacoes = i.ItensCompra.Any() || i.AtividadesInsumo.Any(),
                 DataCriacao = i.DataCriacao,
                 DataAtualizacao = i.DataAtualizacao
             };

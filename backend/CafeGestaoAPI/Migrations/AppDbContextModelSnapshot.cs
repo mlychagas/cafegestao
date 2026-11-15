@@ -22,6 +22,31 @@ namespace CafeGestaoAPI.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeInsumo", b =>
+                {
+                    b.Property<int>("InsumoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AtividadeManejoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("QuantidadeUtilizada")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.HasKey("InsumoId", "AtividadeManejoId");
+
+                    b.HasIndex("AtividadeManejoId");
+
+                    b.ToTable("AtividadesInsumo");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeManejo", b =>
                 {
                     b.Property<int>("Id")
@@ -718,6 +743,25 @@ namespace CafeGestaoAPI.Migrations
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeInsumo", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.AtividadeManejo", "AtividadeManejo")
+                        .WithMany("Insumos")
+                        .HasForeignKey("AtividadeManejoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Insumo", "Insumo")
+                        .WithMany("AtividadesInsumo")
+                        .HasForeignKey("InsumoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AtividadeManejo");
+
+                    b.Navigation("Insumo");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeManejo", b =>
                 {
                     b.HasOne("CafeGestaoAPI.Models.Entities.Safra", "Safra")
@@ -940,6 +984,8 @@ namespace CafeGestaoAPI.Migrations
                 {
                     b.Navigation("Colheita");
 
+                    b.Navigation("Insumos");
+
                     b.Navigation("MaosObra");
 
                     b.Navigation("Talhoes");
@@ -957,6 +1003,8 @@ namespace CafeGestaoAPI.Migrations
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Insumo", b =>
                 {
+                    b.Navigation("AtividadesInsumo");
+
                     b.Navigation("ItensCompra");
                 });
 

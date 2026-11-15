@@ -35,5 +35,7 @@ namespace CafeGestaoAPI.Models.Entities
         public ICollection<TalhaoAtividadeManejo> Talhoes { get; set; } = new List<TalhaoAtividadeManejo>();
 
         public ICollection<MaoObra> MaosObra { get; set; } = new List<MaoObra>();
+
+        public ICollection<AtividadeInsumo> Insumos { get; set; } = new List<AtividadeInsumo>();
     }
 }

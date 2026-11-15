@@ -27,5 +27,7 @@ namespace CafeGestaoAPI.Models.Entities
 
         // coleção
         public ICollection<ItemCompra> ItensCompra { get; set; } = new List<ItemCompra>();
+
+        public ICollection<AtividadeInsumo> AtividadesInsumo { get; set; } = new List<AtividadeInsumo>();
     }
 }

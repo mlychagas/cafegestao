@@ -25,6 +25,8 @@ namespace CafeGestaoAPI.Controllers
 
         private const string CampoTalhoes = "talhaoIds";
 
+        private const string CampoStatus = "status";
+
         public AtividadesManejoController(AppDbContext context)
         {
             _context = context;
@@ -178,6 +180,14 @@ namespace CafeGestaoAPI.Controllers
             if (atividade.Status == StatusAtividadeManejo.Cancelada)
             {
                 return Conflict(new { mensagem = "Esta atividade está cancelada. Reabra a atividade para editá-la." });
+            }
+
+            if (dto.Status != StatusAtividadeManejo.Concluida
+                && await _context.AtividadesInsumo.AnyAsync(ai => ai.AtividadeManejoId == id))
+            {
+                return ConflitoNoCampo(
+                    CampoStatus,
+                    "Esta atividade tem insumos utilizados registrados. Remova os insumos antes de mudar o status.");
             }
 
             if (!await TipoManejoDoUsuario(dto.TipoManejoId!.Value, usuarioId))
@@ -352,6 +362,7 @@ namespace CafeGestaoAPI.Controllers
                     })
                     .ToList(),
                 PossuiColheita = a.Colheita != null,
+                PossuiInsumos = a.Insumos.Any(),
                 DataCriacao = a.DataCriacao,
                 DataAtualizacao = a.DataAtualizacao
             };
