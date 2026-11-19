@@ -248,8 +248,13 @@ function FormularioAtividade({ atividade, safras, setSalvando, aoSalvar }) {
 
         <Row gutter={16}>
           <Col xs={24} sm={8}>
-            <Form.Item name="status" label="Status" rules={[{ required: true, message: 'Selecione o status.' }]}>
-              <Select options={OPCOES_STATUS_EDITAVEIS} />
+            <Form.Item
+              name="status"
+              label="Status"
+              extra={atividade?.possuiInsumos ? 'Remova os insumos utilizados para mudar o status.' : undefined}
+              rules={[{ required: true, message: 'Selecione o status.' }]}
+            >
+              <Select options={OPCOES_STATUS_EDITAVEIS} disabled={Boolean(atividade?.possuiInsumos)} />
             </Form.Item>
           </Col>
 

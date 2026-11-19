@@ -1,8 +1,8 @@
-import { Alert, Button, Card, Flex, Table, Tag, Typography } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Alert, Button, Flex, Table, Tag, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { listarMaoObra } from '../../api/maosObraApi.js';
 import { tratarErroApi } from '../../utils/tratarErroApi.js';
+import { BotaoEditar, BotaoNovo } from '../../components/Botoes.jsx';
 import { formatarMoeda, formatarQuantidade } from '../../utils/formatadores.js';
 import { MaoObraFormModal } from './MaoObraFormModal.jsx';
 import { formatarValorUnitario, siglaUnidadeMaoObra } from './opcoesMaoObra.js';
@@ -39,7 +39,7 @@ const colunas = [
   },
 ];
 
-export function MaoObraCard({ atividade }) {
+export function MaoObraAba({ atividade }) {
   const [registros, setRegistros] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erroLista, setErroLista] = useState(null);
@@ -84,21 +84,21 @@ export function MaoObraCard({ atividade }) {
   const possuiRegistros = registros.length > 0;
 
   return (
-    <Card
-      title="Mão de obra"
-      extra={
-        !cancelada && (
-          <Button
-            type={possuiRegistros ? 'default' : 'primary'}
-            icon={possuiRegistros ? <EditOutlined /> : <PlusOutlined />}
-            disabled={carregando || Boolean(erroLista)}
-            onClick={() => setModalAberto(true)}
-          >
-            {possuiRegistros ? 'Editar mão de obra' : 'Registrar mão de obra'}
-          </Button>
-        )
-      }
-    >
+    <>
+      <Flex justify="space-between" align="center" wrap gap={12} style={{ marginBottom: 16 }}>
+        <Typography.Text type="secondary">Pessoas que trabalharam nesta atividade e o valor de cada uma.</Typography.Text>
+        {!cancelada &&
+          (possuiRegistros ? (
+            <BotaoEditar
+              naTabela={false}
+              desabilitado={carregando || Boolean(erroLista)}
+              onClick={() => setModalAberto(true)}
+            />
+          ) : (
+            <BotaoNovo desabilitado={carregando || Boolean(erroLista)} onClick={() => setModalAberto(true)} />
+          ))}
+      </Flex>
+
       {erroLista && (
         <Alert
           type="error"
@@ -137,6 +137,6 @@ export function MaoObraCard({ atividade }) {
         aoFechar={() => setModalAberto(false)}
         aoSalvar={aposSalvar}
       />
-    </Card>
+    </>
   );
 }

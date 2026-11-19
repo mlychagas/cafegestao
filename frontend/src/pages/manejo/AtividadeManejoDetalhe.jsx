@@ -1,7 +1,14 @@
 import { App, Breadcrumb, Button, Card, Descriptions, Flex, Result, Spin, Table, Tag, Typography } from 'antd';
-import { RollbackOutlined, StopOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  ExperimentOutlined,
+  FileTextOutlined,
+  RollbackOutlined,
+  StopOutlined,
+  TeamOutlined,
+} from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   cancelarAtividadeManejo,
   obterAtividadeManejo,
@@ -11,16 +18,29 @@ import { tratarErroApi } from '../../utils/tratarErroApi.js';
 import { formatarArea, formatarData, formatarQuantidade, textoOuTraco } from '../../utils/formatadores.js';
 import { BotaoConfirmar, BotaoEditar, BotaoVoltar } from '../../components/Botoes.jsx';
 import { AtividadeManejoFormModal } from './AtividadeManejoFormModal.jsx';
-import { MaoObraCard } from './MaoObraCard.jsx';
+import { MaoObraAba } from './MaoObraAba.jsx';
+import { InsumosAtividadeAba } from './InsumosAtividadeAba.jsx';
 import { StatusAtividadeTag } from './StatusAtividadeTag.jsx';
 import { CONSEQUENCIA_CANCELAR_ATIVIDADE, CONSEQUENCIA_REABRIR_ATIVIDADE } from './opcoesAtividade.js';
 
 const COLUNAS_DESCRICAO = { xs: 1, sm: 2, lg: 3 };
 
+const ABAS = [
+  { key: 'dados', label: 'Dados da atividade', icon: <FileTextOutlined /> },
+  { key: 'talhoes', label: 'Talhões trabalhados', icon: <AppstoreOutlined /> },
+  { key: 'insumos', label: 'Insumos utilizados', icon: <ExperimentOutlined /> },
+  { key: 'mao-obra', label: 'Mão de obra', icon: <TeamOutlined /> },
+];
+
+const CHAVES_ABAS = new Set(ABAS.map((aba) => aba.key));
+
 export function AtividadeManejoDetalhe() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { message } = App.useApp();
+  const [parametros, setParametros] = useSearchParams();
+  const abaParametro = parametros.get('aba');
+  const abaAtiva = CHAVES_ABAS.has(abaParametro) ? abaParametro : 'dados';
 
   const [atividade, setAtividade] = useState(null);
   const [carregando, setCarregando] = useState(true);
@@ -49,6 +69,10 @@ export function AtividadeManejoDetalhe() {
       ignorar = true;
     };
   }, [id, versao]);
+
+  function trocarAba(chave) {
+    setParametros(chave === 'dados' ? {} : { aba: chave }, { replace: true });
+  }
 
   function recarregar() {
     setCarregando(true);
@@ -184,7 +208,7 @@ export function AtividadeManejoDetalhe() {
             <BotaoConfirmar
               naTabela={false}
               perigo
-              rotulo="Cancelar atividade"
+              rotulo="Cancelar"
               titulo="Cancelar esta atividade?"
               descricao={CONSEQUENCIA_CANCELAR_ATIVIDADE}
               icone={<StopOutlined />}
@@ -204,12 +228,10 @@ export function AtividadeManejoDetalhe() {
         </Flex>
       </Flex>
 
-      <Flex vertical gap={16}>
-        <Card title="Dados da atividade">
-          <Descriptions column={COLUNAS_DESCRICAO} items={itensDados} />
-        </Card>
+      <Card tabList={ABAS} activeTabKey={abaAtiva} onTabChange={trocarAba}>
+        {abaAtiva === 'dados' && <Descriptions column={COLUNAS_DESCRICAO} items={itensDados} />}
 
-        <Card title="Talhões trabalhados">
+        {abaAtiva === 'talhoes' && (
           <Table
             rowKey="id"
             size="small"
@@ -217,10 +239,12 @@ export function AtividadeManejoDetalhe() {
             dataSource={atividade.talhoes}
             pagination={false}
           />
-        </Card>
+        )}
 
-        <MaoObraCard atividade={atividade} />
-      </Flex>
+        {abaAtiva === 'insumos' && <InsumosAtividadeAba atividade={atividade} aoAlterar={recarregar} />}
+
+        {abaAtiva === 'mao-obra' && <MaoObraAba atividade={atividade} />}
+      </Card>
 
       <AtividadeManejoFormModal
         aberto={modalAberto}

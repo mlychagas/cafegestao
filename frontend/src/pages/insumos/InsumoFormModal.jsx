@@ -78,8 +78,8 @@ function FormularioInsumo({ insumo, setSalvando, aoSalvar }) {
         <Alert
           type="info"
           showIcon
-          title="Este insumo possui compras registradas"
-          description="A quantidade em estoque e a unidade de medida são controladas pelas compras e não podem ser alteradas aqui."
+          title="Este insumo possui movimentações registradas"
+          description="A quantidade em estoque e a unidade de medida são controladas pelas compras e pelas atividades de manejo e não podem ser alteradas aqui."
           style={{ marginBottom: 16 }}
         />
       )}

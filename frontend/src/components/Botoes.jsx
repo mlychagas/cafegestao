@@ -33,9 +33,9 @@ export function BotaoVer({ onClick }) {
   );
 }
 
-export function BotaoEditar({ onClick, naTabela = true }) {
+export function BotaoEditar({ onClick, naTabela = true, desabilitado = false }) {
   return (
-    <Button type={naTabela ? 'link' : 'default'} icon={<EditOutlined />} onClick={onClick}>
+    <Button type={naTabela ? 'link' : 'default'} icon={<EditOutlined />} onClick={onClick} disabled={desabilitado}>
       Editar
     </Button>
   );
