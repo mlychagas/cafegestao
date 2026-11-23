@@ -149,7 +149,11 @@ export function AtividadeManejoDetalhe() {
     },
     { key: 'planejada', label: 'Data planejada', children: formatarData(atividade.dataPlanejada) },
     { key: 'conclusao', label: 'Data de conclusão', children: formatarData(atividade.dataConclusao) },
-    { key: 'colheita', label: 'Colheita vinculada', children: atividade.possuiColheita ? 'Sim' : 'Não' },
+    {
+      key: 'colheita',
+      label: 'Colheita vinculada',
+      children: atividade.colheitaId ? <Link to={`/colheitas/${atividade.colheitaId}`}>Ver colheita</Link> : 'Não',
+    },
     { key: 'horasPrevistas', label: 'Horas previstas', children: formatarQuantidade(atividade.horasPrevistas, 'h') },
     { key: 'horasTrabalhadas', label: 'Horas trabalhadas', children: formatarQuantidade(atividade.horasTrabalhadas, 'h') },
     { key: 'atualizacao', label: 'Última atualização', children: formatarData(atividade.dataAtualizacao) },

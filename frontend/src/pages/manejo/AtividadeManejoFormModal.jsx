@@ -254,7 +254,14 @@ function FormularioAtividade({ atividade, safras, setSalvando, aoSalvar }) {
               extra={atividade?.possuiInsumos ? 'Remova os insumos utilizados para mudar o status.' : undefined}
               rules={[{ required: true, message: 'Selecione o status.' }]}
             >
-              <Select options={OPCOES_STATUS_EDITAVEIS} disabled={Boolean(atividade?.possuiInsumos)} />
+              <Select
+                options={
+                  atividade?.colheitaId
+                    ? OPCOES_STATUS_EDITAVEIS.filter((opcao) => opcao.value !== 'Agendada')
+                    : OPCOES_STATUS_EDITAVEIS
+                }
+                disabled={Boolean(atividade?.possuiInsumos)}
+              />
             </Form.Item>
           </Col>
 

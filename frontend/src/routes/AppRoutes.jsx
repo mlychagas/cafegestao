@@ -13,6 +13,8 @@ import { SafraDetalhe } from "../pages/safras/SafraDetalhe.jsx";
 import { AtividadesManejo } from "../pages/manejo/AtividadesManejo.jsx";
 import { AtividadeManejoDetalhe } from "../pages/manejo/AtividadeManejoDetalhe.jsx";
 import { Pessoas } from "../pages/pessoas/Pessoas.jsx";
+import { Colheitas } from "../pages/colheitas/Colheitas.jsx";
+import { ColheitaDetalhe } from "../pages/colheitas/ColheitaDetalhe.jsx";
 import { Fornecedores } from "../pages/fornecedores/Fornecedores.jsx";
 import { FornecedorDetalhe } from "../pages/fornecedores/FornecedorDetalhe.jsx";
 import { Insumos } from "../pages/insumos/Insumos.jsx";
@@ -39,6 +41,8 @@ export function AppRoutes() {
                     <Route path="atividades-manejo" element={<AtividadesManejo />} />
                     <Route path="atividades-manejo/:id" element={<AtividadeManejoDetalhe />} />
                     <Route path="pessoas" element={<Pessoas />} />
+                    <Route path="colheitas" element={<Colheitas />} />
+                    <Route path="colheitas/:id" element={<ColheitaDetalhe />} />
                     <Route path="fornecedores" element={<Fornecedores />} />
                     <Route path="fornecedores/:id" element={<FornecedorDetalhe />} />
                     <Route path="insumos" element={<Insumos />} />
@@ -51,4 +55,4 @@ export function AppRoutes() {
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );
-}
+}

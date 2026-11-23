@@ -195,6 +195,27 @@ namespace CafeGestaoAPI.Controllers
                 return ConflitoNoCampo(CampoTipoManejo, "Tipo de manejo não encontrado.");
             }
 
+            var talhoesColhidos = await _context.TalhoesColheita
+                .Where(tc => tc.Colheita.AtividadeManejoId == id)
+                .Select(tc => new { tc.TalhaoId, tc.Talhao.Nome })
+                .ToListAsync();
+
+            if (talhoesColhidos.Count > 0 && dto.Status == StatusAtividadeManejo.Agendada)
+            {
+                return ConflitoNoCampo(
+                    CampoStatus,
+                    "Esta atividade tem colheita registrada e não pode voltar para Agendada.");
+            }
+
+            var talhaoColhidoRemovido = talhoesColhidos.FirstOrDefault(tc => !dto.TalhaoIds.Contains(tc.TalhaoId));
+
+            if (talhaoColhidoRemovido is not null)
+            {
+                return ConflitoNoCampo(
+                    CampoTalhoes,
+                    $"O talhão \"{talhaoColhidoRemovido.Nome}\" faz parte da colheita desta atividade e não pode ser removido.");
+            }
+
             var erroTalhoes = await AplicarTalhoes(atividade, dto.TalhaoIds, atividade.Safra.PropriedadeRuralId);
 
             if (erroTalhoes is not null)
@@ -363,6 +384,7 @@ namespace CafeGestaoAPI.Controllers
                     .ToList(),
                 PossuiColheita = a.Colheita != null,
                 PossuiInsumos = a.Insumos.Any(),
+                ColheitaId = a.Colheita != null ? a.Colheita.Id : null,
                 DataCriacao = a.DataCriacao,
                 DataAtualizacao = a.DataAtualizacao
             };
