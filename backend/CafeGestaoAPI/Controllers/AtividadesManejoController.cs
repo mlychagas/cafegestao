@@ -382,9 +382,9 @@ namespace CafeGestaoAPI.Controllers
                         Ativo = t.Talhao.Ativo
                     })
                     .ToList(),
-                PossuiColheita = a.Colheita != null,
+                PossuiColheita = a.Colheitas.Any(),
                 PossuiInsumos = a.Insumos.Any(),
-                ColheitaId = a.Colheita != null ? a.Colheita.Id : null,
+                QuantidadeColheitas = a.Colheitas.Count(),
                 DataCriacao = a.DataCriacao,
                 DataAtualizacao = a.DataAtualizacao
             };

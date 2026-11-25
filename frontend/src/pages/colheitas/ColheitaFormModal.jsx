@@ -118,9 +118,7 @@ function FormularioColheita({ colheita, safras, setSalvando, aoSalvar }) {
     .map((s) => ({ value: s.id, label: rotuloSafra(s) }));
 
   const atividadesDaSafra = atividadesCarregadas.safraId === safraSelecionada ? atividadesCarregadas.lista : [];
-  const atividadesDisponiveis = atividadesDaSafra.filter(
-    (a) => STATUS_ATIVIDADE_COM_COLHEITA.includes(a.status) && !a.possuiColheita,
-  );
+  const atividadesDisponiveis = atividadesDaSafra.filter((a) => STATUS_ATIVIDADE_COM_COLHEITA.includes(a.status));
   const opcoesAtividade = atividadesDisponiveis.map((a) => ({
     value: a.id,
     label: `${a.descricao} · ${formatarData(a.dataPlanejada)}`,
@@ -229,7 +227,6 @@ function FormularioColheita({ colheita, safras, setSalvando, aoSalvar }) {
               <Form.Item
                 name="atividadeManejoId"
                 label="Atividade de manejo"
-                extra="Atividades em andamento ou concluídas, sem colheita."
                 rules={[{ required: true, message: 'Selecione a atividade de manejo.' }]}
               >
                 <Select
@@ -250,7 +247,7 @@ function FormularioColheita({ colheita, safras, setSalvando, aoSalvar }) {
             type="info"
             showIcon
             title="Nenhuma atividade disponível nesta safra."
-            description="A colheita precisa de uma atividade de manejo em andamento ou concluída, que ainda não tenha colheita."
+            description="A colheita precisa de uma atividade de manejo em andamento ou concluída."
             style={{ marginBottom: 16 }}
           />
         )}

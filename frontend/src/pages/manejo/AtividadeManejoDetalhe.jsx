@@ -15,7 +15,7 @@ import {
   reabrirAtividadeManejo,
 } from '../../api/atividadesManejoApi.js';
 import { tratarErroApi } from '../../utils/tratarErroApi.js';
-import { formatarArea, formatarData, formatarQuantidade, textoOuTraco } from '../../utils/formatadores.js';
+import { formatarArea, formatarData, formatarInteiro, formatarQuantidade, textoOuTraco } from '../../utils/formatadores.js';
 import { BotaoConfirmar, BotaoEditar, BotaoVoltar } from '../../components/Botoes.jsx';
 import { AtividadeManejoFormModal } from './AtividadeManejoFormModal.jsx';
 import { MaoObraAba } from './MaoObraAba.jsx';
@@ -150,9 +150,14 @@ export function AtividadeManejoDetalhe() {
     { key: 'planejada', label: 'Data planejada', children: formatarData(atividade.dataPlanejada) },
     { key: 'conclusao', label: 'Data de conclusão', children: formatarData(atividade.dataConclusao) },
     {
-      key: 'colheita',
-      label: 'Colheita vinculada',
-      children: atividade.colheitaId ? <Link to={`/colheitas/${atividade.colheitaId}`}>Ver colheita</Link> : 'Não',
+      key: 'colheitas',
+      label: 'Colheitas registradas',
+      children:
+        atividade.quantidadeColheitas > 0 ? (
+          <Link to={`/colheitas?atividadeId=${atividade.id}`}>{formatarInteiro(atividade.quantidadeColheitas)}</Link>
+        ) : (
+          'Nenhuma'
+        ),
     },
     { key: 'horasPrevistas', label: 'Horas previstas', children: formatarQuantidade(atividade.horasPrevistas, 'h') },
     { key: 'horasTrabalhadas', label: 'Horas trabalhadas', children: formatarQuantidade(atividade.horasTrabalhadas, 'h') },

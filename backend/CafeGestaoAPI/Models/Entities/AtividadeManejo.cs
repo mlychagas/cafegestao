@@ -30,7 +30,7 @@ namespace CafeGestaoAPI.Models.Entities
         public int SafraId { get; set; }
         public Safra Safra { get; set; } = null!;
 
-        public Colheita? Colheita { get; set; }
+        public ICollection<Colheita> Colheitas { get; set; } = new List<Colheita>();
 
         public ICollection<TalhaoAtividadeManejo> Talhoes { get; set; } = new List<TalhaoAtividadeManejo>();
 

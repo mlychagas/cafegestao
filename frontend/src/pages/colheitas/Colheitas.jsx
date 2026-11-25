@@ -1,6 +1,6 @@
-import { Alert, Breadcrumb, Button, Flex, Select, Space, Table, Typography } from 'antd';
+import { Alert, Breadcrumb, Button, Flex, Select, Space, Table, Tag, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { listarColheitas } from '../../api/colheitasApi.js';
 import { listarSafras } from '../../api/safrasApi.js';
 import { tratarErroApi } from '../../utils/tratarErroApi.js';
@@ -19,6 +19,8 @@ function formatarPeriodo(inicio, fim) {
 
 export function Colheitas() {
   const navigate = useNavigate();
+  const [parametros, setParametros] = useSearchParams();
+  const atividadeFiltrada = Number(parametros.get('atividadeId')) || undefined;
 
   const [colheitas, setColheitas] = useState([]);
   const [safras, setSafras] = useState([]);
@@ -47,7 +49,7 @@ export function Colheitas() {
   useEffect(() => {
     let ignorar = false;
 
-    listarColheitas({ safraId: filtroSafra === TODAS ? undefined : filtroSafra })
+    listarColheitas({ safraId: filtroSafra === TODAS ? undefined : filtroSafra, atividadeId: atividadeFiltrada })
       .then((dados) => {
         if (!ignorar) {
           setColheitas(dados);
@@ -64,7 +66,7 @@ export function Colheitas() {
     return () => {
       ignorar = true;
     };
-  }, [filtroSafra, versao]);
+  }, [filtroSafra, atividadeFiltrada, versao]);
 
   function recarregar() {
     setCarregando(true);
@@ -74,6 +76,11 @@ export function Colheitas() {
   function aoMudarSafra(valor) {
     setCarregando(true);
     setFiltroSafra(valor);
+  }
+
+  function limparFiltroAtividade() {
+    setCarregando(true);
+    setParametros({}, { replace: true });
   }
 
   function abrirCadastro() {
@@ -163,6 +170,11 @@ export function Colheitas() {
           <Typography.Text>Safra:</Typography.Text>
           <Select value={filtroSafra} onChange={aoMudarSafra} options={opcoesSafra} style={{ width: 260 }} />
         </Flex>
+        {atividadeFiltrada && (
+          <Tag closable onClose={limparFiltroAtividade} style={{ marginInlineEnd: 0, padding: '4px 10px' }}>
+            Atividade: {colheitas[0]?.descricaoAtividade ?? 'selecionada'}
+          </Tag>
+        )}
       </Flex>
 
       {erroLista && (

@@ -40,7 +40,7 @@ namespace CafeGestaoAPI.DTOs.AtividadesManejo
 
         public bool PossuiInsumos { get; set; }
 
-        public int? ColheitaId { get; set; }
+        public int QuantidadeColheitas { get; set; }
 
         public DateTime DataCriacao { get; set; }
 

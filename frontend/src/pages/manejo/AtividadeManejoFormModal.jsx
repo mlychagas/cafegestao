@@ -256,7 +256,7 @@ function FormularioAtividade({ atividade, safras, setSalvando, aoSalvar }) {
             >
               <Select
                 options={
-                  atividade?.colheitaId
+                  atividade?.possuiColheita
                     ? OPCOES_STATUS_EDITAVEIS.filter((opcao) => opcao.value !== 'Agendada')
                     : OPCOES_STATUS_EDITAVEIS
                 }

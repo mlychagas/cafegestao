@@ -2,10 +2,11 @@ import http from './http.js';
 
 const URL_BASE = '/colheitas';
 
-export async function listarColheitas({ safraId, propriedadeId, dataInicio, dataFim } = {}) {
+export async function listarColheitas({ safraId, atividadeId, propriedadeId, dataInicio, dataFim } = {}) {
   const resposta = await http.get(URL_BASE, {
     params: {
       safraId,
+      atividadeId,
       propriedadeId,
       dataInicio,
       dataFim,
