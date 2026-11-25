@@ -7,7 +7,6 @@ using CafeGestaoAPI.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MySqlConnector;
 
 namespace CafeGestaoAPI.Controllers
 {
@@ -20,11 +19,11 @@ namespace CafeGestaoAPI.Controllers
 
         private const string MensagemNaoEncontrada = "Colheita não encontrada.";
 
-        private const string MensagemAtividadeComColheita = "Esta atividade já possui uma colheita registrada.";
-
         private const string CampoAtividade = "atividadeManejoId";
 
         private const string CampoTalhoes = "talhaoIds";
+
+        private const string CampoQuantidade = "quantidade";
 
         public ColheitasController(AppDbContext context)
         {
@@ -34,6 +33,7 @@ namespace CafeGestaoAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ColheitaRespostaDto>>> Listar(
             [FromQuery] int? safraId,
+            [FromQuery] int? atividadeId,
             [FromQuery] int? propriedadeId,
             [FromQuery] DateOnly? dataInicio,
             [FromQuery] DateOnly? dataFim)
@@ -50,6 +50,11 @@ namespace CafeGestaoAPI.Controllers
             if (safraId.HasValue)
             {
                 consulta = consulta.Where(c => c.SafraId == safraId.Value);
+            }
+
+            if (atividadeId.HasValue)
+            {
+                consulta = consulta.Where(c => c.AtividadeManejoId == atividadeId.Value);
             }
 
             if (propriedadeId.HasValue)
@@ -111,7 +116,6 @@ namespace CafeGestaoAPI.Controllers
                     a.Status,
                     a.SafraId,
                     StatusSafra = a.Safra.Status,
-                    PossuiColheita = a.Colheita != null,
                     TalhaoIds = a.Talhoes.Select(t => t.TalhaoId).ToList()
                 })
                 .FirstOrDefaultAsync();
@@ -131,11 +135,6 @@ namespace CafeGestaoAPI.Controllers
             if (atividade.StatusSafra == StatusSafra.Encerrada)
             {
                 return ConflitoNoCampo(CampoAtividade, "Não é possível registrar colheitas em uma safra encerrada.");
-            }
-
-            if (atividade.PossuiColheita)
-            {
-                return ConflitoNoCampo(CampoAtividade, MensagemAtividadeComColheita);
             }
 
             if (dto.TalhaoIds.Any(id => !atividade.TalhaoIds.Contains(id)))
@@ -160,14 +159,7 @@ namespace CafeGestaoAPI.Controllers
 
             _context.Colheitas.Add(colheita);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex) when (ex.InnerException is MySqlException { ErrorCode: MySqlErrorCode.DuplicateKeyEntry })
-            {
-                return ConflitoNoCampo(CampoAtividade, MensagemAtividadeComColheita);
-            }
+            await _context.SaveChangesAsync();
 
             var resposta = await ConsultarPorId(colheita.Id, usuarioId);
 
@@ -201,6 +193,13 @@ namespace CafeGestaoAPI.Controllers
                 return ConflitoNoCampo(CampoTalhoes, "Selecione apenas talhões trabalhados nesta atividade.");
             }
 
+            var erroLotes = await ValidarLotesDaSafra(colheita, dto);
+
+            if (erroLotes is not null)
+            {
+                return erroLotes;
+            }
+
             foreach (var vinculo in colheita.Talhoes.Where(t => !dto.TalhaoIds.Contains(t.TalhaoId)).ToList())
             {
                 colheita.Talhoes.Remove(vinculo);
@@ -219,6 +218,40 @@ namespace CafeGestaoAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private async Task<ConflictObjectResult?> ValidarLotesDaSafra(Colheita colheita, ColheitaSalvarDto dto)
+        {
+            var lotes = await _context.LotesCafe
+                .AsNoTracking()
+                .Where(l => l.SafraId == colheita.SafraId)
+                .Select(l => new { l.Quantidade, l.UnidadeMedida })
+                .ToListAsync();
+
+            if (lotes.Count == 0)
+            {
+                return null;
+            }
+
+            var outrasColheitas = await _context.Colheitas
+                .AsNoTracking()
+                .Where(c => c.SafraId == colheita.SafraId && c.Id != colheita.Id)
+                .Select(c => new { c.Quantidade, c.UnidadeMedida })
+                .ToListAsync();
+
+            var totalLotesKg = lotes.Sum(l => ConversaoPeso.ParaQuilogramas(l.Quantidade, l.UnidadeMedida));
+            var novoTotalColhidoKg = outrasColheitas.Sum(c => ConversaoPeso.ParaQuilogramas(c.Quantidade, c.UnidadeMedida))
+                + ConversaoPeso.ParaQuilogramas(dto.Quantidade!.Value, dto.UnidadeMedida!.Value);
+
+            if (novoTotalColhidoKg <= totalLotesKg)
+            {
+                return ConflitoNoCampo(
+                    CampoQuantidade,
+                    $"Com esta alteração, o total colhido na safra ({ConversaoPeso.FormatarQuilogramas(novoTotalColhidoKg)}) " +
+                    $"ficaria igual ou menor que o peso já armazenado em lotes ({ConversaoPeso.FormatarQuilogramas(totalLotesKg)}).");
+            }
+
+            return null;
         }
 
         private static void CopiarDados(Colheita colheita, ColheitaSalvarDto dto)

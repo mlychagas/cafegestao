@@ -16,8 +16,8 @@ namespace CafeGestaoAPI.DTOs.Colheitas
         public decimal? Quantidade { get; set; }
 
         [Required(ErrorMessage = "Selecione a unidade de medida.")]
-        [EnumDataType(typeof(UnidadeColheita), ErrorMessage = "Unidade de medida inválida.")]
-        public UnidadeColheita? UnidadeMedida { get; set; }
+        [EnumDataType(typeof(UnidadePeso), ErrorMessage = "Unidade de medida inválida.")]
+        public UnidadePeso? UnidadeMedida { get; set; }
 
         [DefaultValue(null)]
         [MaxLength(50, ErrorMessage = "A forma de colheita deve ter no máximo 50 caracteres.")]
@@ -35,7 +35,7 @@ namespace CafeGestaoAPI.DTOs.Colheitas
         {
             var hoje = DateOnly.FromDateTime(DateTime.Today);
 
-            if (UnidadeMedida == UnidadeColheita.NaoInformado)
+            if (UnidadeMedida == UnidadePeso.NaoInformado)
             {
                 yield return new ValidationResult("Selecione a unidade de medida.", new[] { nameof(UnidadeMedida) });
             }

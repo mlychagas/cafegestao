@@ -5,6 +5,7 @@ import { obterSafra } from '../../api/safrasApi.js';
 import { tratarErroApi } from '../../utils/tratarErroApi.js';
 import { formatarData, formatarQuantidade } from '../../utils/formatadores.js';
 import { siglaProdutividade } from './opcoesSafra.js';
+import { calcularRendimento, formatarPercentual } from '../lotes/opcoesLote.js';
 import { BotaoEditar, BotaoVoltar } from '../../components/Botoes.jsx';
 import { SafraFormModal } from './SafraFormModal.jsx';
 import { StatusSafraTag } from './StatusSafraTag.jsx';
@@ -95,6 +96,13 @@ export function SafraDetalhe() {
       children: formatarQuantidade(safra.produtividadeEstimada, siglaProdutividade(safra.unidadeMedida)),
     },
     { key: 'colheitas', label: 'Colheitas', children: safra.quantidadeColheitas },
+    { key: 'colhido', label: 'Café colhido', children: formatarQuantidade(safra.totalColhidoKg, 'kg') },
+    { key: 'lotes', label: 'Armazenado em lotes', children: formatarQuantidade(safra.totalLotesKg, 'kg') },
+    {
+      key: 'rendimento',
+      label: 'Rendimento (lotes ÷ colhido)',
+      children: formatarPercentual(calcularRendimento(safra.totalLotesKg, safra.totalColhidoKg)),
+    },
     { key: 'cadastro', label: 'Cadastrada em', children: formatarData(safra.dataCriacao) },
     { key: 'atualizacao', label: 'Última atualização', children: formatarData(safra.dataAtualizacao) },
   ];

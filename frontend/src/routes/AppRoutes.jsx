@@ -15,6 +15,8 @@ import { AtividadeManejoDetalhe } from "../pages/manejo/AtividadeManejoDetalhe.j
 import { Pessoas } from "../pages/pessoas/Pessoas.jsx";
 import { Colheitas } from "../pages/colheitas/Colheitas.jsx";
 import { ColheitaDetalhe } from "../pages/colheitas/ColheitaDetalhe.jsx";
+import { Lotes } from "../pages/lotes/Lotes.jsx";
+import { LoteDetalhe } from "../pages/lotes/LoteDetalhe.jsx";
 import { Fornecedores } from "../pages/fornecedores/Fornecedores.jsx";
 import { FornecedorDetalhe } from "../pages/fornecedores/FornecedorDetalhe.jsx";
 import { Insumos } from "../pages/insumos/Insumos.jsx";
@@ -43,6 +45,8 @@ export function AppRoutes() {
                     <Route path="pessoas" element={<Pessoas />} />
                     <Route path="colheitas" element={<Colheitas />} />
                     <Route path="colheitas/:id" element={<ColheitaDetalhe />} />
+                    <Route path="lotes" element={<Lotes />} />
+                    <Route path="lotes/:id" element={<LoteDetalhe />} />
                     <Route path="fornecedores" element={<Fornecedores />} />
                     <Route path="fornecedores/:id" element={<FornecedorDetalhe />} />
                     <Route path="insumos" element={<Insumos />} />

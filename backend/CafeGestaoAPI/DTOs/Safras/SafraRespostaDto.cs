@@ -24,6 +24,10 @@ namespace CafeGestaoAPI.DTOs.Safras
 
         public int QuantidadeColheitas { get; set; }
 
+        public decimal TotalColhidoKg { get; set; }
+
+        public decimal TotalLotesKg { get; set; }
+
         public DateTime DataCriacao { get; set; }
 
         public DateTime? DataAtualizacao { get; set; }

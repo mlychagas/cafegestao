@@ -149,8 +149,7 @@ namespace CafeGestaoAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AtividadeManejoId")
-                        .IsUnique();
+                    b.HasIndex("AtividadeManejoId");
 
                     b.HasIndex("SafraId");
 
@@ -339,6 +338,69 @@ namespace CafeGestaoAPI.Migrations
                     b.HasIndex("InsumoId");
 
                     b.ToTable("ItensCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.LoteCafe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateOnly>("DataArmazenamento")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FormaProcessamento")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Observacao")
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<decimal>("Quantidade")
+                        .HasPrecision(10, 3)
+                        .HasColumnType("decimal(10,3)");
+
+                    b.Property<int>("SafraId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Umidade")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<string>("UnidadeMedida")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SafraId");
+
+                    b.HasIndex("UsuarioId", "Nome")
+                        .IsUnique();
+
+                    b.ToTable("LotesCafe");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.MaoObra", b =>
@@ -784,8 +846,8 @@ namespace CafeGestaoAPI.Migrations
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Colheita", b =>
                 {
                     b.HasOne("CafeGestaoAPI.Models.Entities.AtividadeManejo", "AtividadeManejo")
-                        .WithOne("Colheita")
-                        .HasForeignKey("CafeGestaoAPI.Models.Entities.Colheita", "AtividadeManejoId")
+                        .WithMany("Colheitas")
+                        .HasForeignKey("AtividadeManejoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -847,6 +909,25 @@ namespace CafeGestaoAPI.Migrations
                     b.Navigation("Insumo");
 
                     b.Navigation("OrdemCompra");
+                });
+
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.LoteCafe", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Safra", "Safra")
+                        .WithMany("Lotes")
+                        .HasForeignKey("SafraId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Safra");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.MaoObra", b =>
@@ -982,7 +1063,7 @@ namespace CafeGestaoAPI.Migrations
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.AtividadeManejo", b =>
                 {
-                    b.Navigation("Colheita");
+                    b.Navigation("Colheitas");
 
                     b.Navigation("Insumos");
 
@@ -1025,6 +1106,8 @@ namespace CafeGestaoAPI.Migrations
                     b.Navigation("AtividadesManejo");
 
                     b.Navigation("Colheitas");
+
+                    b.Navigation("Lotes");
                 });
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.TipoManejo", b =>

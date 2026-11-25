@@ -12,7 +12,7 @@ namespace CafeGestaoAPI.DTOs.Colheitas
 
         public decimal Quantidade { get; set; }
 
-        public UnidadeColheita UnidadeMedida { get; set; }
+        public UnidadePeso UnidadeMedida { get; set; }
 
         public string? FormaColheita { get; set; }
 

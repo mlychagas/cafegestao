@@ -201,6 +201,10 @@ namespace CafeGestaoAPI.Controllers
                 ProdutividadeEstimada = s.ProdutividadeEstimada,
                 UnidadeMedida = s.UnidadeMedida,
                 QuantidadeColheitas = s.Colheitas.Count(),
+                TotalColhidoKg = s.Colheitas.Sum(c =>
+                    c.UnidadeMedida == UnidadePeso.Tonelada ? c.Quantidade * ConversaoPeso.QuilogramasPorTonelada : c.Quantidade),
+                TotalLotesKg = s.Lotes.Sum(l =>
+                    l.UnidadeMedida == UnidadePeso.Tonelada ? l.Quantidade * ConversaoPeso.QuilogramasPorTonelada : l.Quantidade),
                 DataCriacao = s.DataCriacao,
                 DataAtualizacao = s.DataAtualizacao
             };

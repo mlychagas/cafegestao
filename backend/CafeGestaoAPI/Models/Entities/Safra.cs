@@ -26,5 +26,7 @@ namespace CafeGestaoAPI.Models.Entities
         public ICollection<AtividadeManejo> AtividadesManejo { get; set; } = new List<AtividadeManejo>();
 
         public ICollection<Colheita> Colheitas { get; set; } = new List<Colheita>();
+
+        public ICollection<LoteCafe> Lotes { get; set; } = new List<LoteCafe>();
     }
 }

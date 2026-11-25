@@ -13,7 +13,7 @@ namespace CafeGestaoAPI.Models.Entities
         [Precision(10, 3)]
         public required decimal Quantidade { get; set; }
 
-        public UnidadeColheita UnidadeMedida { get; set; }
+        public UnidadePeso UnidadeMedida { get; set; }
 
         [MaxLength(50)]
         public string? FormaColheita { get; set; }

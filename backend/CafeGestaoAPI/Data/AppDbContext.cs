@@ -42,6 +42,8 @@ namespace CafeGestaoAPI.Data
 
         public DbSet<AtividadeInsumo> AtividadesInsumo { get; set; }
 
+        public DbSet<LoteCafe> LotesCafe { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -188,11 +190,34 @@ namespace CafeGestaoAPI.Data
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(c => c.AtividadeManejo)
-                      .WithOne(a => a.Colheita)
-                      .HasForeignKey<Colheita>(c => c.AtividadeManejoId)
+                      .WithMany(a => a.Colheitas)
+                      .HasForeignKey(c => c.AtividadeManejoId)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.Property(c => c.UnidadeMedida)
+                      .HasConversion<string>()
+                      .HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<LoteCafe>(entity => {
+                entity.HasOne(l => l.Usuario)
+                      .WithMany()
+                      .HasForeignKey(l => l.UsuarioId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(l => l.Safra)
+                      .WithMany(s => s.Lotes)
+                      .HasForeignKey(l => l.SafraId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(l => new { l.UsuarioId, l.Nome })
+                      .IsUnique();
+
+                entity.Property(l => l.UnidadeMedida)
+                      .HasConversion<string>()
+                      .HasMaxLength(20);
+
+                entity.Property(l => l.FormaProcessamento)
                       .HasConversion<string>()
                       .HasMaxLength(20);
             });

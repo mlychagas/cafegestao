@@ -1,9 +1,12 @@
 export const UNIDADES_COLHEITA = {
-  Litro: { rotulo: 'Litro', sigla: 'L' },
-  Lata: { rotulo: 'Lata (latão)', sigla: 'lata' },
-  Saca: { rotulo: 'Saca', sigla: 'sc' },
-  Quilograma: { rotulo: 'Quilograma', sigla: 'kg' },
+  Quilograma: { rotulo: 'Quilograma (kg)', sigla: 'kg' },
+  Tonelada: { rotulo: 'Tonelada (t)', sigla: 't' },
 };
+
+export function paraQuilogramas(quantidade, unidade) {
+  if (!quantidade) return 0;
+  return unidade === 'Tonelada' ? quantidade * 1000 : quantidade;
+}
 
 export const OPCOES_UNIDADE_COLHEITA = Object.entries(UNIDADES_COLHEITA).map(([valor, unidade]) => ({
   value: valor,
