@@ -32,6 +32,8 @@ namespace CafeGestaoAPI.Data
 
         public DbSet<Fornecedor> Fornecedores { get; set; }
 
+        public DbSet<Cliente> Clientes { get; set; }
+
         public DbSet<OrdemCompra> OrdensCompra { get; set; }
 
         public DbSet<ItemCompra> ItensCompra { get; set; }
@@ -76,6 +78,19 @@ namespace CafeGestaoAPI.Data
                 entity.HasOne(f => f.Usuario)
                       .WithMany(u => u.Fornecedores)
                       .HasForeignKey(f => f.UsuarioId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Cliente>(entity => {
+                entity.HasIndex(c => new { c.UsuarioId, c.CpfCnpj }).IsUnique();
+                entity.HasOne(c => c.Endereco)
+                      .WithOne()
+                      .HasForeignKey<Cliente>(c => c.EnderecoId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(c => c.Usuario)
+                      .WithMany(u => u.Clientes)
+                      .HasForeignKey(c => c.UsuarioId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 

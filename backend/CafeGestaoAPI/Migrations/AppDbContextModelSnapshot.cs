@@ -104,6 +104,64 @@ namespace CafeGestaoAPI.Migrations
                     b.ToTable("AtividadesManejo");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Celular")
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<string>("CpfCnpj")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("EnderecoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EnderecoId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioId", "CpfCnpj")
+                        .IsUnique();
+
+                    b.ToTable("Clientes");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Colheita", b =>
                 {
                     b.Property<int>("Id")
@@ -843,6 +901,25 @@ namespace CafeGestaoAPI.Migrations
                     b.Navigation("TipoManejo");
                 });
 
+            modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Cliente", b =>
+                {
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Endereco", "Endereco")
+                        .WithOne()
+                        .HasForeignKey("CafeGestaoAPI.Models.Entities.Cliente", "EnderecoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CafeGestaoAPI.Models.Entities.Usuario", "Usuario")
+                        .WithMany("Clientes")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Endereco");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Colheita", b =>
                 {
                     b.HasOne("CafeGestaoAPI.Models.Entities.AtividadeManejo", "AtividadeManejo")
@@ -1117,6 +1194,8 @@ namespace CafeGestaoAPI.Migrations
 
             modelBuilder.Entity("CafeGestaoAPI.Models.Entities.Usuario", b =>
                 {
+                    b.Navigation("Clientes");
+
                     b.Navigation("Fornecedores");
 
                     b.Navigation("Insumos");

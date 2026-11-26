@@ -1,4 +1,4 @@
-import { HomeOutlined, EnvironmentOutlined, CalendarOutlined, ToolOutlined, TeamOutlined, ScissorOutlined, InboxOutlined, ShopOutlined, ShoppingCartOutlined, ExperimentOutlined } from '@ant-design/icons';
+import { HomeOutlined, EnvironmentOutlined, CalendarOutlined, ToolOutlined, TeamOutlined, ScissorOutlined, InboxOutlined, ShopOutlined, ShoppingCartOutlined, ExperimentOutlined, SolutionOutlined } from '@ant-design/icons';
 
 const menuItens = [
   {
@@ -24,6 +24,13 @@ const menuItens = [
     children: [
       { key: '/colheitas', icon: <ScissorOutlined />, label: 'Colheitas' },
       { key: '/lotes', icon: <InboxOutlined />, label: 'Lotes de café' },
+    ],
+  },
+  {
+    type: 'group',
+    label: 'Comercial',
+    children: [
+      { key: '/clientes', icon: <SolutionOutlined />, label: 'Clientes' },
     ],
   },
   {

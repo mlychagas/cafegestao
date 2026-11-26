@@ -19,6 +19,8 @@ import { Lotes } from "../pages/lotes/Lotes.jsx";
 import { LoteDetalhe } from "../pages/lotes/LoteDetalhe.jsx";
 import { Fornecedores } from "../pages/fornecedores/Fornecedores.jsx";
 import { FornecedorDetalhe } from "../pages/fornecedores/FornecedorDetalhe.jsx";
+import { Clientes } from "../pages/clientes/Clientes.jsx";
+import { ClienteDetalhe } from "../pages/clientes/ClienteDetalhe.jsx";
 import { Insumos } from "../pages/insumos/Insumos.jsx";
 import { Compras } from "../pages/compras/Compras.jsx";
 import { CompraDetalhe } from "../pages/compras/CompraDetalhe.jsx";
@@ -49,6 +51,8 @@ export function AppRoutes() {
                     <Route path="lotes/:id" element={<LoteDetalhe />} />
                     <Route path="fornecedores" element={<Fornecedores />} />
                     <Route path="fornecedores/:id" element={<FornecedorDetalhe />} />
+                    <Route path="clientes" element={<Clientes />} />
+                    <Route path="clientes/:id" element={<ClienteDetalhe />} />
                     <Route path="insumos" element={<Insumos />} />
                     <Route path="compras" element={<Compras />} />
                     <Route path="compras/nova" element={<CompraFormulario />} />
