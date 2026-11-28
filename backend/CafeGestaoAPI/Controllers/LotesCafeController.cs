@@ -22,6 +22,9 @@ namespace CafeGestaoAPI.Controllers
 
         private const string MensagemNomeDuplicado = "Já existe um lote com este nome.";
 
+        private const string MensagemLoteEmVendas =
+            "Este lote está em vendas ativas e não pode ser alterado. Cancele as vendas para editá-lo.";
+
         private const string CampoNome = "nome";
 
         private const string CampoSafra = "safraId";
@@ -141,6 +144,7 @@ namespace CafeGestaoAPI.Controllers
             };
 
             CopiarDados(lote, dto);
+            lote.SaldoKg = ConversaoPeso.ParaQuilogramas(lote.Quantidade, lote.UnidadeMedida);
 
             _context.LotesCafe.Add(lote);
 
@@ -173,6 +177,14 @@ namespace CafeGestaoAPI.Controllers
                 return NotFound(new { mensagem = MensagemNaoEncontrado });
             }
 
+            var possuiVendasAtivas = await _context.ItensVenda
+                .AnyAsync(i => i.LoteCafeId == id && i.Venda.Status != StatusVenda.Cancelada);
+
+            if (possuiVendasAtivas)
+            {
+                return Conflict(new { mensagem = MensagemLoteEmVendas });
+            }
+
             var nome = dto.Nome.Trim();
 
             var mensagemDuplicado = await VerificarNomeDuplicado(nome, usuarioId, idIgnorado: id);
@@ -193,6 +205,7 @@ namespace CafeGestaoAPI.Controllers
             lote.Quantidade = dto.Quantidade!.Value;
             lote.DataArmazenamento = dto.DataArmazenamento!.Value;
             CopiarDados(lote, dto);
+            lote.SaldoKg = ConversaoPeso.ParaQuilogramas(lote.Quantidade, lote.UnidadeMedida);
 
             try
             {
@@ -315,6 +328,8 @@ namespace CafeGestaoAPI.Controllers
                 Nome = l.Nome,
                 Quantidade = l.Quantidade,
                 UnidadeMedida = l.UnidadeMedida,
+                SaldoKg = l.SaldoKg,
+                QuantidadeVendasAtivas = l.ItensVenda.Count(i => i.Venda.Status != StatusVenda.Cancelada),
                 DataArmazenamento = l.DataArmazenamento,
                 FormaProcessamento = l.FormaProcessamento,
                 Umidade = l.Umidade,

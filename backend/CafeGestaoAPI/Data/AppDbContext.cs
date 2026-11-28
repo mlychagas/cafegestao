@@ -46,6 +46,10 @@ namespace CafeGestaoAPI.Data
 
         public DbSet<LoteCafe> LotesCafe { get; set; }
 
+        public DbSet<Venda> Vendas { get; set; }
+
+        public DbSet<ItemVenda> ItensVenda { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -269,6 +273,29 @@ namespace CafeGestaoAPI.Data
                 entity.HasOne(o => o.Fornecedor)
                       .WithMany(f => f.OrdensCompra)
                       .HasForeignKey(o => o.FornecedorId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Venda>(entity => {
+                entity.HasOne(v => v.Cliente)
+                      .WithMany(c => c.Vendas)
+                      .HasForeignKey(v => v.ClienteId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.Property(v => v.Status)
+                      .HasConversion<string>()
+                      .HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<ItemVenda>(entity => {
+                entity.HasOne(i => i.Venda)
+                      .WithMany(v => v.ItensVenda)
+                      .HasForeignKey(i => i.VendaId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(i => i.LoteCafe)
+                      .WithMany(l => l.ItensVenda)
+                      .HasForeignKey(i => i.LoteCafeId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 

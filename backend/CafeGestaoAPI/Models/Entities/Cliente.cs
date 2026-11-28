@@ -26,5 +26,7 @@ namespace CafeGestaoAPI.Models.Entities
 
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; } = null!;
+
+        public ICollection<Venda> Vendas { get; set; } = new List<Venda>();
     }
 }

@@ -241,6 +241,7 @@ namespace CafeGestaoAPI.Controllers
                     Pais = c.Endereco.Pais,
                     Complemento = c.Endereco.Complemento
                 },
+                QuantidadeVendas = c.Vendas.Count(),
                 DataCriacao = c.DataCriacao,
                 DataAtualizacao = c.DataAtualizacao
             };

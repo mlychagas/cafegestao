@@ -20,6 +20,8 @@ namespace CafeGestaoAPI.DTOs.Clientes
 
         public EnderecoDto Endereco { get; set; } = new();
 
+        public int QuantidadeVendas { get; set; }
+
         public DateTime DataCriacao { get; set; }
 
         public DateTime? DataAtualizacao { get; set; }

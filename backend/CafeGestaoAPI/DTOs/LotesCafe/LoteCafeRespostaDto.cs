@@ -12,6 +12,10 @@ namespace CafeGestaoAPI.DTOs.LotesCafe
 
         public UnidadePeso UnidadeMedida { get; set; }
 
+        public decimal SaldoKg { get; set; }
+
+        public int QuantidadeVendasAtivas { get; set; }
+
         public DateOnly DataArmazenamento { get; set; }
 
         public FormaProcessamento FormaProcessamento { get; set; }

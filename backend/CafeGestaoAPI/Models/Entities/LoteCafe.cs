@@ -14,6 +14,9 @@ namespace CafeGestaoAPI.Models.Entities
 
         public UnidadePeso UnidadeMedida { get; set; }
 
+        [Precision(13, 3)]
+        public decimal SaldoKg { get; set; }
+
         public required DateOnly DataArmazenamento { get; set; }
 
         public FormaProcessamento FormaProcessamento { get; set; }
@@ -31,5 +34,7 @@ namespace CafeGestaoAPI.Models.Entities
 
         public int SafraId { get; set; }
         public Safra Safra { get; set; } = null!;
+
+        public ICollection<ItemVenda> ItensVenda { get; set; } = new List<ItemVenda>();
     }
 }
